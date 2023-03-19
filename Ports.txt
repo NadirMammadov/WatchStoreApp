@@ -1,0 +1,4 @@
+Services
+ -catalogAPI => 5011
+ -photstockAPI => 5012
+-identityServer => 5001

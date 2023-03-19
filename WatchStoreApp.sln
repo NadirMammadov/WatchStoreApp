@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F1055222-ABEF-4ADA-9874-0428FAA847EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A658F893-8E46-4360-AA9C-313518B2B4E3}"
+	ProjectSection(SolutionItems) = preProject
+		Ports.txt = Ports.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.API", "Services\Catalog\CatalogService.API\CatalogService.API.csproj", "{D21B37B5-EED7-4492-A4CB-419DABDEFF93}"
 EndProject
@@ -24,6 +27,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{1DF302A9-049C-4E68-B101-1A07937655A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WacthStore.IdentityServer", "IdentityServer\WacthStore.IdentityServer\WacthStore.IdentityServer.csproj", "{A81EC6FF-421A-4BD2-989E-1E2CED4943F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PhotoStock", "PhotoStock", "{581A750D-A1BC-4F8A-B640-2CDBB8EE0DD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoStockService.API", "Services\PhotoStock\PhotoStockService.API\PhotoStockService.API.csproj", "{CBAFB389-0DE4-40F7-812E-2C71006FCE8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +62,10 @@ Global
 		{A81EC6FF-421A-4BD2-989E-1E2CED4943F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A81EC6FF-421A-4BD2-989E-1E2CED4943F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A81EC6FF-421A-4BD2-989E-1E2CED4943F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAFB389-0DE4-40F7-812E-2C71006FCE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAFB389-0DE4-40F7-812E-2C71006FCE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAFB389-0DE4-40F7-812E-2C71006FCE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAFB389-0DE4-40F7-812E-2C71006FCE8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +78,8 @@ Global
 		{AAE8D9FE-A5DB-4032-83E6-950192A8CA1F} = {D4FA4C11-4362-48AE-A007-55844BC93B1C}
 		{C7397890-AD97-484A-B572-D81B234947B4} = {F1055222-ABEF-4ADA-9874-0428FAA847EB}
 		{A81EC6FF-421A-4BD2-989E-1E2CED4943F9} = {1DF302A9-049C-4E68-B101-1A07937655A9}
+		{581A750D-A1BC-4F8A-B640-2CDBB8EE0DD1} = {7C929803-E98E-4134-9DCF-CD085E401F5D}
+		{CBAFB389-0DE4-40F7-812E-2C71006FCE8B} = {581A750D-A1BC-4F8A-B640-2CDBB8EE0DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9C73C79-426D-41B8-976B-9436A537680F}
