@@ -6,7 +6,7 @@ namespace CatalogService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : CustomControllerBase
+    public class CategoriesController : CustomControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get()

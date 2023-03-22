@@ -7,7 +7,7 @@ namespace PackageService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : CustomControllerBase
+    public class ProductsController : CustomControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get()
