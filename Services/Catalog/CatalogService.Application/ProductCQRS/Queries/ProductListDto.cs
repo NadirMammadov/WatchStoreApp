@@ -1,5 +1,4 @@
-﻿using CatalogService.Domain.Entities;
-namespace CatalogService.Application.ProductCQRS.Queries
+﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
     public class ProductListDto
     {
@@ -13,5 +12,7 @@ namespace CatalogService.Application.ProductCQRS.Queries
         public string Picture { get; set; } = null!;
         public string CategoryId { get; set; } = null!;
         public Category Category { get; set; } = null!;
+
     }
+
 }

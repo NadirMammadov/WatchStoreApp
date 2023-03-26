@@ -1,0 +1,22 @@
+﻿@model SigninInput
+
+<h1>SignIn</h1>
+
+<form asp-controller="Auth" asp-action="SignIn" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email address</label>
+        <input type="email" asp-for="Email" class="form-control" >
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input type="password " asp-for="Password" class="form-control" >
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsRemember" >
+        <label asp-for="IsRemember" class="form-check-label" >Check me out</labeL>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

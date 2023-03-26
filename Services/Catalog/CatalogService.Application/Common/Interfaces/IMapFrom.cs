@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-namespace CatalogService.Application.Common.Interfaces
+﻿namespace CatalogService.Application.Common.Interfaces
 {
     public interface IMapFrom<T>
     {

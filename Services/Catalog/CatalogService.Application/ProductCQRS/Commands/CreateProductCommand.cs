@@ -1,12 +1,6 @@
-﻿using CatalogService.Application.Settings;
-using CatalogService.Domain.Entities;
-using MediatR;
-using MongoDB.Driver;
-using WastchStore.Shared.Dtos;
-
-namespace CatalogService.Application.ProductCQRS.Commands
+﻿namespace CatalogService.Application.ProductCQRS.Commands
 {
-    public class CreateProductCommand : IRequest<Response<ProductDto>>
+    public class CreateProductCommand : IRequest<Response<bool>>
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
@@ -16,23 +10,21 @@ namespace CatalogService.Application.ProductCQRS.Commands
         public string Mechanism { get; set; } = null!;
         public string Picture { get; set; } = null!;
         public string CategoryId { get; set; } = null!;
+        public decimal Price { get; set; }
     }
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateProductCommand, Response<ProductDto>>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateProductCommand, Response<bool>>
     {
 
-        private readonly IMongoCollection<Product> _productCollection;
-        private readonly IDatabaseSettings _databaseSettings;
+        private readonly ICollectionDatabase<Product> _productCollectionDatabase;
 
-        public CreateCategoryCommandHandler(IDatabaseSettings databaseSettings)
+        public CreateCategoryCommandHandler(ICollectionDatabase<Product> productCollectionDatabase)
         {
-            _databaseSettings = databaseSettings;
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+            _productCollectionDatabase = productCollectionDatabase;
         }
 
-        public async Task<Response<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            var _productCollection = _productCollectionDatabase.GetMongoCollection();
             await _productCollection.InsertOneAsync(new Product()
             {
                 Name = request.Name,
@@ -43,8 +35,9 @@ namespace CatalogService.Application.ProductCQRS.Commands
                 Mechanism = request.Mechanism,
                 CategoryId = request.CategoryId,
                 Picture = request.Picture,
+                Created = DateTime.Now
             });
-            return Response<ProductDto>.Success(201);
+            return Response<bool>.Success(201);
         }
     }
 }

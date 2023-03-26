@@ -1,6 +1,4 @@
-﻿using CatalogService.Domain.Entities;
-
-namespace CatalogService.Application.ProductCQRS.Commands
+﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
     public class ProductDto
     {

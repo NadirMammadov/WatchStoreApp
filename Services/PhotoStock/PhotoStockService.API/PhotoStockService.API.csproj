@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\photos\" />
+    <ProjectReference Include="..\..\..\Shared\WatchStore.Shared\WatchStore.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\WatchStore.Shared\WatchStore.Shared.csproj" />
+    <Folder Include="wwwroot\Photos\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using CatalogService.Application.ProductCQRS.Queries;
-using CatalogService.Domain.Entities;
+﻿using CatalogService.Application.ProductCQRS.Queries;
 
 namespace CatalogService.Application.Common.Mapping
 {
@@ -9,6 +7,8 @@ namespace CatalogService.Application.Common.Mapping
         public ProductProfile()
         {
             CreateMap<Product, ProductListDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, NewProductsDto>().ReverseMap();
         }
     }
 }

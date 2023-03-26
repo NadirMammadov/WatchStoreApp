@@ -8,3 +8,5 @@ Services
 -identityServer => 5001
 
 GATEWAY => 5000
+
+WEB-FRONT - 5010

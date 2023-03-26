@@ -1,40 +1,30 @@
-﻿using AutoMapper;
-using CatalogService.Application.CategoryCQRS.Queries;
-using CatalogService.Application.Settings;
-using CatalogService.Domain.Entities;
-using MediatR;
-using MongoDB.Driver;
-using WastchStore.Shared.Dtos;
-
-namespace CatalogService.Application.ProductCQRS.Queries
+﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
     public class GetProductsQuery : IRequest<Response<List<ProductListDto>>> { }
 
 
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Response<List<ProductListDto>>>
     {
-        private readonly ISender _mediator;
         private readonly IMapper _mapper;
-        private readonly IMongoCollection<Product> _productCollection;
-        private readonly IDatabaseSettings _databaseSettings;
-        public GetProductsQueryHandler(IMapper mapper, IDatabaseSettings databaseSettings, ISender mediator)
+        private readonly ICollectionDatabase<Product> _productCollectionDatabase;
+        private readonly ICollectionDatabase<Category> _categoryCollectionDatabase;
+        public GetProductsQueryHandler(IMapper mapper, ICollectionDatabase<Product> collectionDatabase, ICollectionDatabase<Category> categoryCollectionDatabase)
         {
             _mapper = mapper;
-            _databaseSettings = databaseSettings;
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
-            _mediator = mediator;
+            _productCollectionDatabase = collectionDatabase;
+            _categoryCollectionDatabase = categoryCollectionDatabase;
         }
         public async Task<Response<List<ProductListDto>>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productCollection.Find(product => true).ToListAsync();
+            var _productCollection = _productCollectionDatabase.GetMongoCollection();
+            var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
+            var products = await _productCollection.Find(x => true).ToListAsync();
             if (products.Any())
             {
                 foreach (var product in products)
                 {
-                    var category = await _mediator.Send(new GetCategoryQuery(product.CategoryId));
-                    product.Category = new Category { Id = category.Data.Id, Name = category.Data.Name };
+                    var category = await _categoryCollection.Find(x => x.Id == product.CategoryId).FirstOrDefaultAsync();
+                    product.Category = new Category { Id = category.Id, Name = category.Name };
                 }
             }
             return Response<List<ProductListDto>>.Success(_mapper.Map<List<ProductListDto>>(products), 200);

@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using CatalogService.Application.CategoryCQRS.Queries;
-using CatalogService.Domain.Entities;
-
+﻿using CatalogService.Application.CategoryCQRS.Queries;
 namespace CatalogService.Application.Common.Mapping;
 public class CategoryProfile : Profile
 {

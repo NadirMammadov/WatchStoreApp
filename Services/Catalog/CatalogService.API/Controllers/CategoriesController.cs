@@ -14,10 +14,18 @@ namespace CatalogService.API.Controllers
             var response = await Mediator.Send(new GetCategoriesQuery());
             return CreateActionResultInstance(response);
         }
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             var response = await Mediator.Send(new GetCategoryQuery(id));
+            return CreateActionResultInstance(response);
+        }
+
+        [HttpPut]
+
+        public async Task<IActionResult> Update(UpdateCategoryCommand command)
+        {
+            var response = await Mediator.Send(command);
             return CreateActionResultInstance(response);
         }
         [HttpPost]

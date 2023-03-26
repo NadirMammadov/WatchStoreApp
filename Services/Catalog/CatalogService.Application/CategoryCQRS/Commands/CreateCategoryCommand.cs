@@ -1,9 +1,4 @@
 ﻿using CatalogService.Application.CategoryCQRS.Queries;
-using CatalogService.Application.Settings;
-using CatalogService.Domain.Entities;
-using MediatR;
-using MongoDB.Driver;
-using WastchStore.Shared.Dtos;
 
 namespace CatalogService.Application.CategoryCQRS.Commands
 {
@@ -14,19 +9,15 @@ namespace CatalogService.Application.CategoryCQRS.Commands
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Response<CategoryDto>>
     {
 
-        private readonly IMongoCollection<Category> _categoryCollection;
-        private readonly IDatabaseSettings _databaseSettings;
-
-        public CreateCategoryCommandHandler(IDatabaseSettings databaseSettings)
+        private readonly ICollectionDatabase<Category> _categoryCollectionDatabase;
+        public CreateCategoryCommandHandler(ICollectionDatabase<Category> categoryCollectionDatabase)
         {
-            _databaseSettings = databaseSettings;
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+            _categoryCollectionDatabase = categoryCollectionDatabase;
         }
 
         public async Task<Response<CategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
+            var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
             await _categoryCollection.InsertOneAsync(new Category()
             {
                 Name = request.Name

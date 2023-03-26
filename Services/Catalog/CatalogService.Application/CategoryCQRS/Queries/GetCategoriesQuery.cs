@@ -1,29 +1,19 @@
-﻿using AutoMapper;
-using CatalogService.Application.Settings;
-using CatalogService.Domain.Entities;
-using MediatR;
-using MongoDB.Driver;
-using WastchStore.Shared.Dtos;
-
-namespace CatalogService.Application.CategoryCQRS.Queries
+﻿namespace CatalogService.Application.CategoryCQRS.Queries
 {
     public class GetCategoriesQuery : IRequest<Response<List<CategoryListDto>>> { }
 
     public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, Response<List<CategoryListDto>>>
     {
         private readonly IMapper _mapper;
-        private readonly IMongoCollection<Category> _categoryCollection;
-        private readonly IDatabaseSettings _databaseSettings;
-        public GetCategoriesQueryHandler(IMapper mapper, IDatabaseSettings databaseSettings)
+        private readonly ICollectionDatabase<Category> _categoryCollectionDatabase;
+        public GetCategoriesQueryHandler(IMapper mapper, ICollectionDatabase<Category> categoryCollectionDatabase)
         {
             _mapper = mapper;
-            _databaseSettings = databaseSettings;
-            var client = new MongoClient(_databaseSettings.ConnectionString);
-            var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
+            _categoryCollectionDatabase = categoryCollectionDatabase;
         }
         public async Task<Response<List<CategoryListDto>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
+            var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
             var categories = await _categoryCollection.Find(category => true).ToListAsync();
             if (!categories.Any())
             {

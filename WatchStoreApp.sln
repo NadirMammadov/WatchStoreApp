@@ -60,6 +60,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{44
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchStore.Gateway.Web", "Gateways\WatchStore.Gateway.Web\WatchStore.Gateway.Web.csproj", "{EBA769AB-27EB-4601-B526-566831416C30}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{DDF00AB7-7D26-4C56-A5EE-A4B3A76ABB4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchStoreApp.UI", "Frontends\WatchStoreApp.UI\WatchStoreApp.UI.csproj", "{E3E65C9E-3C37-4C18-B820-9364B6E0A47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +134,10 @@ Global
 		{EBA769AB-27EB-4601-B526-566831416C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA769AB-27EB-4601-B526-566831416C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA769AB-27EB-4601-B526-566831416C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E65C9E-3C37-4C18-B820-9364B6E0A47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E65C9E-3C37-4C18-B820-9364B6E0A47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E65C9E-3C37-4C18-B820-9364B6E0A47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E65C9E-3C37-4C18-B820-9364B6E0A47D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +165,7 @@ Global
 		{4B042BC9-27FD-4318-BBC0-3F9CD55BCE8F} = {7C929803-E98E-4134-9DCF-CD085E401F5D}
 		{BCDD868F-1A67-4D80-A57A-68073B825993} = {4B042BC9-27FD-4318-BBC0-3F9CD55BCE8F}
 		{EBA769AB-27EB-4601-B526-566831416C30} = {449D5F1E-0A83-4672-8882-A5DAF409AA5F}
+		{E3E65C9E-3C37-4C18-B820-9364B6E0A47D} = {DDF00AB7-7D26-4C56-A5EE-A4B3A76ABB4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9C73C79-426D-41B8-976B-9436A537680F}
