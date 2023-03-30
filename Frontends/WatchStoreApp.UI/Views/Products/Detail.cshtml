@@ -1,0 +1,47 @@
+﻿@model ProductsModel
+<link rel="stylesheet" href="~/css/productDetail.css">
+<div class="card-wrapper">
+    <div class="card">
+        <!-- card left -->
+        <div class="product-imgs">
+            <div class="img-display">
+                <div class="img-showcase">
+                    <img src="@Model.Picture" alt="shoe image">
+                    <img src="@Model.Picture" alt="shoe image">
+                    <img src="@Model.Picture" alt="shoe image">
+                    <img src="@Model.Picture" alt="shoe image">
+                </div>
+            </div>
+        </div>
+        <!-- card right -->
+        <div class="product-content">
+            <h2 class="product-title">@Model.Name</h2>
+            <p>Brend: <a href="#" class="product-link">@Model.Brend</a></p>
+            
+
+            <div class="product-price">
+                <p class="new-price">Qiymət: <span>@Model.Price AZN </span></p>
+            </div>
+            <p style="display:inline-block;border-bottom:1px solid #256eff;">Xüsusiyyətlər</p>
+            <div class="product-detail">
+                
+                <ul>
+                    <li>Brend: <span>@Model.Brend</span></li>
+                    <li>Kateqoriya: <span>@Model.Category.Name</span></li>
+                    <li>Mexanizm: <span>@Model.Mechanism</span></li>
+                    <li>Korpus ölçüsü: <span>@Model.CorpusSize</span></li>
+                    <li>Qolbaq növü: <span>Paslanmaz Polad</span></li>
+                    
+                </ul>
+            </div>
+            <div class="purchase-info">
+                <span>Sifariş sayı: <input type="number" min="0" value="1"></span>
+                
+                <button type="button" class="btn">
+                    <a asp-action="AddBasketItem" asp-controller="Basket" asp-route-productId="@Model.Id">Add to Cart <i class="fas fa-shopping-cart"></i> </a>
+                    
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

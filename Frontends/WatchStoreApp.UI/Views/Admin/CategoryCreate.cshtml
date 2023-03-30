@@ -1,0 +1,12 @@
+﻿@model CategoryCreateInput
+<div class="mx-auto row row-12">
+    <div class="col-6">
+        <form asp-controller="Admin" asp-action="CategoryCreate" method="post" >
+            <div class="form-group">
+                <label asp-for="@Model.Name"></label>
+                <input class="form-control" type="text" asp-for="Name">
+            </div>
+            <button type="submit" class="btn-sm btn-danger">Submit</button>
+        </form>
+    </div>
+</div>

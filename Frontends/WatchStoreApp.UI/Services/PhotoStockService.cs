@@ -1,6 +1,4 @@
-﻿using WastchStore.Shared.Dtos;
-
-namespace WatchStoreApp.UI.Services
+﻿namespace WatchStoreApp.UI.Services
 {
     public class PhotoStockService : IPhotoStockService
     {

@@ -1,0 +1,41 @@
+﻿@model ProductViewModel
+<h2 class="text-center"><a asp-controller="Admin" asp-action="Index" class="text-dark">Admin Panel</a></h2>
+<a class="text-success"  asp-controller="Admin" asp-action="ProductCreate" >Məhsul əlavə edin</a>
+<table class= "table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Məhsulun şəkli</th>
+            <th scope="col">Məhsulun adı</th>
+            <th scope="col">Məhsulun modeli</th>
+            <th scope="col">Məhsulun brendi</th>
+            <th scope="col">Məhsulun qiyməti</th>
+            <th scope="col">Məhsulun kateqoriyası</th>
+            <th scope="col">Sil və güncəllə</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.ProductsModel)
+        {
+             <tr class="">
+                <th scope="row"><img style="width:70px" src="@product.Picture" /></th>
+                <td class="">@product.Name</td>
+                <td>@product.Model</td>
+                <td>@product.Brend</td>
+                <td>@product.Price</td>
+                <td>@product.Category.Name</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="ProductUpdate" asp-route-id="@product.Id" class="text-warning">Güncəllə</a><br /><a asp-controller="Admin" asp-action="ProductDelete" asp-route-id="@product.Id" class="text-danger">Sil</a>
+            </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+<nav class="mb-5" aria-label="Page navigation example ">
+    <ul class=" justify-content-center px-auto pg-danger pagination">
+        @for (int i = 1; i <= Model.ProductPageInformation.TotalPage(); i++)
+        {
+            <li class="page-item "><a class="page-link text-danger" href="/products/?page=@i">@i</a></li>
+        }
+    </ul>
+</nav>

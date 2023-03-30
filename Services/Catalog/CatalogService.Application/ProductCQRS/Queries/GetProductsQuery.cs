@@ -1,6 +1,13 @@
 ﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
-    public class GetProductsQuery : IRequest<Response<List<ProductListDto>>> { }
+    public class GetProductsQuery : IRequest<Response<List<ProductListDto>>>
+    {
+        public int Page { get; set; }
+        public GetProductsQuery(int page)
+        {
+            Page = page;
+        }
+    }
 
 
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Response<List<ProductListDto>>>
@@ -18,7 +25,7 @@
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
-            var products = await _productCollection.Find(x => true).ToListAsync();
+            var products = await _productCollection.Find(x => true).Skip((request.Page - 1) * 15).Limit(15).ToListAsync();
             if (products.Any())
             {
                 foreach (var product in products)

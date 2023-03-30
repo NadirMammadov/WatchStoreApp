@@ -1,5 +1,4 @@
-﻿
-namespace WatchStoreApp.UI.Services;
+﻿namespace WatchStoreApp.UI.Services;
 public class UserService : IUserService
 {
     private readonly HttpClient _client;

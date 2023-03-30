@@ -1,4 +1,4 @@
-﻿using WastchStore.Shared.Dtos;
+﻿using WatchStoreApp.UI.Helpers;
 
 namespace WatchStoreApp.UI.Services
 {
@@ -6,10 +6,12 @@ namespace WatchStoreApp.UI.Services
     {
         private readonly HttpClient _client;
         private readonly IPhotoStockService _photoStockService;
-        public CatalogService(HttpClient client, IPhotoStockService photoStockService)
+        private readonly PhotoHelper _photoHelper;
+        public CatalogService(HttpClient client, IPhotoStockService photoStockService, PhotoHelper photoHelper)
         {
             _client = client;
             _photoStockService = photoStockService;
+            _photoHelper = photoHelper;
         }
 
         #region Methods
@@ -50,24 +52,36 @@ namespace WatchStoreApp.UI.Services
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CategoryViewModel>>>();
             return responseSuccess.Data;
         }
-        public async Task<List<ProductViewModel>> GetAllProductsAsync()
+        public async Task<ProductViewModel> GetAllProductsAsync(int page)
         {
-            var response = await _client.GetAsync("products");
-            if (!response.IsSuccessStatusCode)
+            var responseProducts = await _client.GetAsync($"products/get/page={page}");
+            var responsePageInfo = await _client.GetAsync($"products/getproductcount");
+            if (!responseProducts.IsSuccessStatusCode && !responsePageInfo.IsSuccessStatusCode)
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<ProductViewModel>>>();
-            return responseSuccess.Data;
+            var responseProductsSuccess = await responseProducts.Content.ReadFromJsonAsync<Response<List<ProductsModel>>>();
+            var responsePageInfoSuccess = await responsePageInfo.Content.ReadFromJsonAsync<Response<ProductPageInfo>>();
+            responseProductsSuccess.Data.ForEach(x =>
+            {
+                x.Picture = _photoHelper.GetPhotoStockUrl(x.Picture);
+            });
+            var responseData = new ProductViewModel
+            {
+                ProductsModel = responseProductsSuccess.Data,
+                ProductPageInformation = responsePageInfoSuccess.Data
+            };
+            return responseData;
         }
-        public async Task<ProductViewModel> GetProductById(string productId)
+        public async Task<ProductsModel> GetProductById(string productId)
         {
             var response = await _client.GetAsync($"products/{productId}");
             if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<ProductsModel>>();
+            responseSuccess.Data.Picture = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture);
             return responseSuccess.Data;
         }
         public async Task<CategoryViewModel> GetCategoryById(string categoryId)
@@ -81,14 +95,23 @@ namespace WatchStoreApp.UI.Services
             return responseSuccess.Data;
         }
 
-        public async Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput)
+        public async Task<bool> UpdateProductAsync(ProductUpdateModel productUpdateModel)
         {
-            var response = await _client.PutAsJsonAsync<ProductUpdateInput>("products", productUpdateInput);
+            if (productUpdateModel.PhotoFormFile != null)
+            {
+                var resultPhotoService = await _photoStockService.UploadPhoto(productUpdateModel.PhotoFormFile);
+                if (resultPhotoService != null)
+                {
+                    await _photoStockService.DeletePhoto(productUpdateModel.Picture);
+                    productUpdateModel.Picture = resultPhotoService.Url;
+                }
+            }
+            var response = await _client.PutAsJsonAsync<ProductUpdateModel>("products", productUpdateModel);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> UpdateCategoryAsync(CategoryUpdateInput categoryUpdateInput)
         {
-            var response = await _client.PutAsJsonAsync<CategoryUpdateInput>("products", categoryUpdateInput);
+            var response = await _client.PutAsJsonAsync<CategoryUpdateInput>("categories", categoryUpdateInput);
             return response.IsSuccessStatusCode;
         }
         public async Task<List<ProductViewModel>> GetAllProductByUserIdAsync(string userId)
@@ -111,6 +134,8 @@ namespace WatchStoreApp.UI.Services
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<NewProductsViewModel>>>();
             return responseSuccess.Data;
         }
+
+
         #endregion
     }
 }

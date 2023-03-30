@@ -1,5 +1,4 @@
 ﻿using IdentityModel.AspNetCore.AccessTokenManagement;
-using IdentityModel.Client;
 using Microsoft.Extensions.Options;
 
 namespace WatchStoreApp.UI.Services

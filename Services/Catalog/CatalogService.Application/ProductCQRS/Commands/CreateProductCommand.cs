@@ -35,6 +35,7 @@
                 Mechanism = request.Mechanism,
                 CategoryId = request.CategoryId,
                 Picture = request.Picture,
+                Price = request.Price,
                 Created = DateTime.Now
             });
             return Response<bool>.Success(201);

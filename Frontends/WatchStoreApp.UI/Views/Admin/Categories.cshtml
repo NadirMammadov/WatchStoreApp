@@ -1,0 +1,23 @@
+﻿@model List<CategoryViewModel>
+<h2 class="text-center"><a asp-controller="Admin" asp-action="Index" class="text-dark">Admin Panel</a></h2>
+<a class="text-success" asp-controller="Admin" asp-action="CategoryCreate">Kateqoriya əlavə edin</a>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Kateqoriyanın adı</th>
+            <th scope="col">Sil və güncəllə</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr class="">
+                <td class="">@category.Name</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="CategoryUpdate" asp-route-id="@category.Id" class="text-warning">Güncəllə</a><br /><a asp-controller="Admin" asp-action="CategoryDelete" asp-route-id="@category.Id" class="text-danger">Sil</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

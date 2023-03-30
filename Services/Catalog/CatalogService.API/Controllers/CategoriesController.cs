@@ -1,5 +1,6 @@
 ﻿using CatalogService.Application.CategoryCQRS.Commands;
 using CatalogService.Application.CategoryCQRS.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WatchStore.Shared.ControllerBase;
 namespace CatalogService.API.Controllers
@@ -20,9 +21,7 @@ namespace CatalogService.API.Controllers
             var response = await Mediator.Send(new GetCategoryQuery(id));
             return CreateActionResultInstance(response);
         }
-
         [HttpPut]
-
         public async Task<IActionResult> Update(UpdateCategoryCommand command)
         {
             var response = await Mediator.Send(command);
@@ -32,6 +31,13 @@ namespace CatalogService.API.Controllers
         public async Task<IActionResult> Create(CreateCategoryCommand command)
         {
             var response = await Mediator.Send(command);
+            return CreateActionResultInstance(response);
+        }
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var response = await Mediator.Send(new DeleteCategoryCommand(id));
             return CreateActionResultInstance(response);
         }
     }

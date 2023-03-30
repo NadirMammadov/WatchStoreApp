@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PackageService.API.Controllers
+namespace CatalogService.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

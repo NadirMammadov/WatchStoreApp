@@ -12,6 +12,7 @@ namespace CatalogService.Domain.Entities
         public string Model { get; set; } = null!;
         public string CorpusSize { get; set; } = null!;
         public string Mechanism { get; set; } = null!;
+        public decimal Price { get; set; }
         public string Picture { get; set; } = null!;
         [BsonRepresentation(BsonType.ObjectId)]
         public string CategoryId { get; set; } = null!;

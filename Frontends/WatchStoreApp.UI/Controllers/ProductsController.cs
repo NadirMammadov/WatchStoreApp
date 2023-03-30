@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WatchStore.Shared.Services;
 
 namespace WatchStoreApp.UI.Controllers
 {
-    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ICatalogService _catalogService;
@@ -15,20 +13,16 @@ namespace WatchStoreApp.UI.Controllers
             _catalogService = catalogService;
             _sharedIdentityService = sharedIdentityService;
         }
-
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _catalogService.GetAllProductByUserIdAsync(_sharedIdentityService.GetUserId));
+            var response = await _catalogService.GetAllProductsAsync(page);
+            return View(response);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Detail(string id)
         {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(ProductCreateInput productCreateInput)
-        {
-            var response = await _catalogService.CreateProductAsync(productCreateInput);
-            return View();
+            var product = await _catalogService.GetProductById(id);
+            return View(product);
         }
     }
 }

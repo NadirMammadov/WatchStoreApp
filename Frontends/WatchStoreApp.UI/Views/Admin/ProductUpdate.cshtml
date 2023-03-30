@@ -1,10 +1,12 @@
-﻿@model ProductCreateInput
+﻿@model ProductUpdateModel
 <div class="mx-auto row row-12">
     <div class="col-6">
-        <form asp-controller="Products" asp-action="Create" method="post" enctype="multipart/form-data">
+        <form asp-controller="Admin" asp-action="ProductUpdate" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.Id"/>
+            <input type="hidden" asp-for="@Model.Picture"/>
             <div class="form-group">
                 <label asp-for="@Model.Name"></label>
-                <input class="form-control" type="text" asp-for="Name">
+                <input class="form-control" type="text" asp-for="@Model.Name">
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Brend"></label>
@@ -34,10 +36,12 @@
                 <label asp-for="@Model.PhotoFormFile"></label>
                 <input class="form-control" type="file" asp-for="PhotoFormFile">
             </div>
+            <div class="form-group">
+                @await Component.InvokeAsync("Categories")
+            </div>
+
             <button type="submit" class="btn-sm btn-danger">Submit</button>
         </form>
     </div>
-    <div class="col-6 bg-dark">
 
-    </div>
 </div>

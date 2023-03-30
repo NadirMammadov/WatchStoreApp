@@ -1,0 +1,45 @@
+﻿@model ProductCreateInput
+<div class="mx-auto row row-12">
+    <div class="col-6">
+        <form asp-controller="Admin" asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="@Model.Name"></label>
+                <input class="form-control" type="text" asp-for="Name">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Brend"></label>
+                <input class="form-control" type=" text" asp-for="Brend">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Model"></label>
+                <input class="form-control" type="text" asp-for="Model">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Description"></label>
+                <input class="form-control" type="text" asp-for="Description">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CorpusSize"></label>
+                <input class="form-control" type="text" asp-for="CorpusSize">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Mechanism"></label>
+                <input class="form-control" type="text" asp-for="Mechanism">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Price"></label>
+                <input class="form-control" type="number" asp-for="Price">
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhotoFormFile"></label>
+                <input class="form-control" type="file" asp-for="PhotoFormFile">
+            </div>
+            <div class="form-group">
+                @await Component.InvokeAsync("Categories")
+            </div>
+            
+            <button type="submit" class="btn-sm btn-danger">Submit</button>
+        </form>
+    </div>
+   
+</div>

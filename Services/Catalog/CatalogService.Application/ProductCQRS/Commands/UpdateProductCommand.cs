@@ -12,6 +12,7 @@ namespace CatalogService.Application.ProductCQRS.Commands
         public string Mechanism { get; set; } = null!;
         public string Picture { get; set; } = null!;
         public string CategoryId { get; set; } = null!;
+        public decimal Price { get; set; }
     }
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<NoContent>>
     {
@@ -35,6 +36,7 @@ namespace CatalogService.Application.ProductCQRS.Commands
                 Mechanism = request.Mechanism,
                 Picture = request.Picture,
                 CategoryId = request.CategoryId,
+                Price = request.Price,
                 LastModified = DateTime.Now
             };
             var result = await _productCollection.FindOneAndReplaceAsync(x => x.Id == product.Id, product);
