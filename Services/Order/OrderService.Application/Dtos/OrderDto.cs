@@ -1,16 +1,14 @@
-﻿using OrderService.Domain.OrderAggregate;
-
-namespace OrderService.Application.Dtos;
+﻿namespace OrderService.Application.Dtos;
 public class OrderDto
 {
     public int Id { get; set; }
     public DateTime CreatedDate { get; set; }
-    public Address Address { get; set; } = null!;
+    public AddressDto Address { get; set; } = null!;
     public string BuyerId { get; set; } = null!;
-    private readonly List<OrderItem> _orderItems;
-    public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+    private readonly List<OrderItemDto> _orderItems;
+    public IReadOnlyCollection<OrderItemDto> OrderItems => _orderItems;
     public OrderDto()
     {
-        _orderItems = new List<OrderItem>();
+        _orderItems = new List<OrderItemDto>();
     }
 }

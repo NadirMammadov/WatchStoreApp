@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WatchStore.Shared.Services;
+﻿using WatchStore.Shared.Services;
 
 namespace WatchStoreApp.UI.Controllers
 {

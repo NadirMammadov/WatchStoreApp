@@ -1,4 +1,5 @@
 ﻿global using IdentityModel.Client;
+global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.Options;
 global using WastchStore.Shared.Dtos;
 global using WatchStoreApp.UI.Models;

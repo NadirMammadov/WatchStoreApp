@@ -24,12 +24,12 @@ namespace DiscountService.API.Controllers
             return CreateActionResultInstance(await _discountService.GetAll());
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAll(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             return CreateActionResultInstance(await _discountService.GetById(id));
         }
         [HttpGet]
-        [Route("/api/[controller]/GetByCode/{code}")]
+        [Route("/api/[controller]/[action]/{code}")]
         public async Task<IActionResult> GetByCode(string code)
         {
             return CreateActionResultInstance(await _discountService.GetByCodeAndUserId(code, _sharedIdentityService.GetUserId));

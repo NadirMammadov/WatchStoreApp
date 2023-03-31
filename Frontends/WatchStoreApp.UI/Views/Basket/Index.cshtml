@@ -1,4 +1,8 @@
-﻿@model BasketViewModel
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+@model BasketViewModel
 
 <div class="row">
 
@@ -14,9 +18,9 @@
                     <table class="table table-striped">
 
                         <tr>
-                            <th>Məhsulun adı</th>
-                            <th>Qiyməti</th>
-                            <th>Əməliyyatlar</th>
+                            <th>Kurs isim</th>
+                            <th>Kurs fiyat</th>
+                            <th>İşlemler</th>
                         </tr>
 
                         @foreach (var item in Model.BasketItems)
@@ -63,7 +67,14 @@
                             <button class="btn btn-outline-secondary" type="submit">Uygula</button>
                         </div>
 
-                        
+                        @if (TempData["discountStatus"] != null && (bool)TempData["discountStatus"] == false)
+                        {
+                            <div class="text-danger">indirim kodu geçersiz</div>
+                        }
+                        @if (TempData["discountError"] != null)
+                        {
+                            <div class="text-danger">@TempData["discountError"]</div>
+                        }
                     </form>
                     <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Ödeme bilgileri</a>
                     <a class="btn btn-warning" asp-controller="Home" asp-action="Index">Kursları incelemeye devam et</a>

@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using WatchStoreApp.UI.Models;
-using WatchStoreApp.UI.Services.Interfaces;
 
 namespace WatchStoreApp.UI.Controllers
 {

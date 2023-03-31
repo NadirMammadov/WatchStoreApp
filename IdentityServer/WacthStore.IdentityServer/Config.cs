@@ -19,6 +19,7 @@ namespace WacthStore.IdentityServer
             new ApiResource("resource_discount"){Scopes={ "discount_fullpermission" }},
             new ApiResource("resource_order"){Scopes={ "order_fullpermission" }},
             new ApiResource("resource_gateway"){Scopes={ "gateway_fullpermission" }},
+            new ApiResource("resource_payment"){Scopes={"payment_fullpermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -38,6 +39,7 @@ namespace WacthStore.IdentityServer
                 new ApiScope("basket_fullpermission","Basket API ucun full baglanti"),
                 new ApiScope("discount_fullpermission","Discount API ucun full baglanti"),
                  new ApiScope("order_fullpermission","Order API ucun full baglanti"),
+                 new ApiScope("payment_fullpermission","Payment API için full erişim"),
                  new ApiScope("gateway_fullpermission","gateway API ucun full baglanti"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
@@ -60,7 +62,7 @@ namespace WacthStore.IdentityServer
                     AllowOfflineAccess = true,
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = { "gateway_fullpermission", "basket_fullpermission", "discount_fullpermission", "order_fullpermission" ,IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles"},
+                    AllowedScopes = { "gateway_fullpermission", "basket_fullpermission", "discount_fullpermission", "order_fullpermission" , "payment_fullpermission",IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles"},
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime =(int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds ,

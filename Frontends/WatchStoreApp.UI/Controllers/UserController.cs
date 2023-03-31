@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WatchStoreApp.UI.Services.Interfaces;
-
-namespace WatchStoreApp.UI.Controllers
+﻿namespace WatchStoreApp.UI.Controllers
 {
     public class UserController : Controller
     {

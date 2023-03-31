@@ -10,7 +10,7 @@ namespace OrderService.Application.Order.Commands
     {
         public string BuyerId { get; set; } = null!;
         public List<OrderItemDto> OrderItems { get; set; } = null!;
-        public Address Address { get; set; } = null!;
+        public AddressDto Address { get; set; } = null!;
     }
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Response<CreatedOrderDto>>
     {
