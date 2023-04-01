@@ -62,9 +62,35 @@ namespace WatchStoreApp.UI.Services
             return response.Data;
         }
 
-        public Task SuspendOrder(CheckoutInfoInput checkoutInfoInput)
+        public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)
         {
-            throw new NotImplementedException();
+            var basket = await _basketService.Get();
+            var orderCreateInput = new OrderCreateInput()
+            {
+                BuyerId = _sharedIdentityService.GetUserId,
+                Address = new AddressCreateInput { Province = checkoutInfoInput.Province, District = checkoutInfoInput.District, Street = checkoutInfoInput.Street, Line = checkoutInfoInput.Line, ZipCode = checkoutInfoInput.ZipCode },
+            };
+            basket.BasketItems.ForEach(x =>
+            {
+                var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = "", ProductName = x.ProductName };
+                orderCreateInput.OrderItems.Add(orderItem);
+            });
+            var paymentInfoInput = new PaymentInfoInput()
+            {
+                CardName = checkoutInfoInput.CardName,
+                CardNumber = checkoutInfoInput.CardNumber,
+                Expiration = checkoutInfoInput.Expiration,
+                TotalPrice = checkoutInfoInput.TotalPrice,
+                CVV = checkoutInfoInput.CVV,
+                Order = orderCreateInput
+            };
+            var responsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
+            if (!responsePayment)
+            {
+                return new OrderSuspendViewModel() { Error = "Ödəniş uğursuz oldu", IsSuccessful = false };
+            }
+            await _basketService.Delete();
+            return new OrderSuspendViewModel() { IsSuccessful = true };
         }
     }
 }

@@ -7,5 +7,6 @@
         public string Expiration { get; set; } = null!;
         public int CVV { get; set; }
         public decimal TotalPrice { get; set; }
+        public OrderDto Order { get; set; }
     }
 }

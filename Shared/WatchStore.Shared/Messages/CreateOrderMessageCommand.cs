@@ -4,6 +4,10 @@ namespace WatchStore.Shared.Messages
 {
     public class CreateOrderMessageCommand
     {
+        public CreateOrderMessageCommand()
+        {
+            OrderItems = new List<OrderItem>();
+        }
         public string BuyerId { get; set; } = null!;
 
         public List<OrderItem> OrderItems { get; set; } = null!;

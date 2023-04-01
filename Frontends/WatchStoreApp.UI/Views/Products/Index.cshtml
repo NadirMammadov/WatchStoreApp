@@ -64,7 +64,8 @@
                                         <div class="popular-img">
                                             <img src="@product.Picture" alt="">
                                             <div class="img-cap">
-                                                <span>Add to cart</span>
+                                                <a asp-controller="Basket" asp-action="AddBasketItem" asp-route-productId="@product.Id"><span>Add to cart</span> </a>
+                                                
                                             </div>
                                             <div class="favorit-items">
                                                 <span class="flaticon-heart"></span>

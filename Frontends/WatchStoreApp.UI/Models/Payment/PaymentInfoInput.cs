@@ -1,4 +1,6 @@
-﻿namespace WatchStoreApp.UI.Models.Payment
+﻿using WatchStoreApp.UI.Models.Orders;
+
+namespace WatchStoreApp.UI.Models.Payment
 {
     public class PaymentInfoInput
     {
@@ -7,5 +9,6 @@
         public string Expiration { get; set; } = null!;
         public int CVV { get; set; }
         public decimal TotalPrice { get; set; }
+        public OrderCreateInput Order { get; set; }
     }
 }

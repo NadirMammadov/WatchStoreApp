@@ -16,7 +16,8 @@ namespace WatchStoreApp.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _basketService.Get());
+            var response = await _basketService.Get();
+            return View(response);
         }
 
         public async Task<IActionResult> AddBasketItem(string productId)
