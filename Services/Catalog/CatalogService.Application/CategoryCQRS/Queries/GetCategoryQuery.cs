@@ -1,6 +1,6 @@
 ﻿namespace CatalogService.Application.CategoryCQRS.Queries
 {
-    public class GetCategoryQuery : IRequest<Response<CategoryDto>>
+    public class GetCategoryQuery : IRequest<TResponse<CategoryDto>>
     {
 
         public GetCategoryQuery(string id)
@@ -11,7 +11,7 @@
         public string Id { get; set; } = null!;
 
     }
-    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, Response<CategoryDto>>
+    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, TResponse<CategoryDto>>
     {
         private readonly IMapper _mapper;
         private readonly ICollectionDatabase<Category> _categoryCollectionDatabase;
@@ -21,15 +21,15 @@
             _categoryCollectionDatabase = categoryCollectionDatabase;
         }
 
-        public async Task<Response<CategoryDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<CategoryDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
             var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
             Category category = await _categoryCollection.Find(ct => ct.Id == request.Id).FirstOrDefaultAsync();
             if (category == null)
             {
-                return Response<CategoryDto>.Fail("Category not found", 404);
+                return TResponse<CategoryDto>.Fail("Category not found", 404);
             }
-            return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
+            return TResponse<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
     }
 }

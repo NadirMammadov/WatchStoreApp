@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace WatchStore.Shared.ControllerBase
 {
@@ -10,7 +10,7 @@ namespace WatchStore.Shared.ControllerBase
         private ISender _mediator;
 
         protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
-        public IActionResult CreateActionResultInstance<T>(Response<T> response)
+        public IActionResult CreateActionResultInstance<T>(TResponse<T> response)
         {
             return new ObjectResult(response)
             {

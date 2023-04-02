@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WatchStoreApp.UI.Models
+namespace WatchStoreApp.UI.Models.Auth
 {
     public class SigninInput
     {

@@ -1,4 +1,6 @@
-﻿namespace WatchStoreApp.UI.Services
+﻿using WatchStore.Shared.Dtos;
+
+namespace WatchStoreApp.UI.Services
 {
     public class PhotoStockService : IPhotoStockService
     {
@@ -11,8 +13,8 @@
 
         public async Task<bool> DeletePhoto(string photoUrl)
         {
-            var response = await _httpClient.DeleteAsync($"photos?photoUrl={photoUrl}");
-            return response.IsSuccessStatusCode;
+            var TResponse = await _httpClient.DeleteAsync($"photos?photoUrl={photoUrl}");
+            return TResponse.IsSuccessStatusCode;
         }
 
         public async Task<PhotoViewModel> UploadPhoto(IFormFile photo)
@@ -32,16 +34,16 @@
 
             multipartContent.Add(new ByteArrayContent(ms.ToArray()), "photo", randonFilename);
 
-            var response = await _httpClient.PostAsync("photos", multipartContent);
+            var TResponse = await _httpClient.PostAsync("photos", multipartContent);
 
-            if (!response.IsSuccessStatusCode)
+            if (!TResponse.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<PhotoViewModel>>();
+            var TResponseSuccess = await TResponse.Content.ReadFromJsonAsync<TResponse<PhotoViewModel>>();
 
-            return responseSuccess.Data;
+            return TResponseSuccess.Data;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using WatchStore.Shared.Services;
+﻿using WatchStore.Shared.Dtos;
+using WatchStore.Shared.Services;
 using WatchStoreApp.UI.Models.Orders;
 using WatchStoreApp.UI.Models.Payment;
 
@@ -30,8 +31,8 @@ namespace WatchStoreApp.UI.Services
                 TotalPrice = checkoutInfoInput.TotalPrice,
                 CVV = checkoutInfoInput.CVV
             };
-            var responsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
-            if (!responsePayment)
+            var TResponsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
+            if (!TResponsePayment)
             {
                 return new OrderCreatedViewModel() { Error = "Ödəniş uğursuz oldu", IsSuccessful = false };
             }
@@ -45,12 +46,12 @@ namespace WatchStoreApp.UI.Services
                 var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = "", ProductName = x.ProductName };
                 orderCreateInput.OrderItems.Add(orderItem);
             });
-            var response = await _httpClient.PostAsJsonAsync<OrderCreateInput>("orders", orderCreateInput);
-            if (!response.IsSuccessStatusCode)
+            var TResponse = await _httpClient.PostAsJsonAsync<OrderCreateInput>("orders", orderCreateInput);
+            if (!TResponse.IsSuccessStatusCode)
             {
                 return new OrderCreatedViewModel() { Error = "Sifariş uğursuz oldu", IsSuccessful = false };
             }
-            var orderCreatedViewModel = await response.Content.ReadFromJsonAsync<Response<OrderCreatedViewModel>>();
+            var orderCreatedViewModel = await TResponse.Content.ReadFromJsonAsync<TResponse<OrderCreatedViewModel>>();
             orderCreatedViewModel.Data.IsSuccessful = true;
             await _basketService.Delete();
             return orderCreatedViewModel.Data;
@@ -58,8 +59,8 @@ namespace WatchStoreApp.UI.Services
 
         public async Task<List<OrderViewModel>> GetOrder()
         {
-            var response = await _httpClient.GetFromJsonAsync<Response<List<OrderViewModel>>>("orders");
-            return response.Data;
+            var TResponse = await _httpClient.GetFromJsonAsync<TResponse<List<OrderViewModel>>>("orders");
+            return TResponse.Data;
         }
 
         public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)
@@ -84,8 +85,8 @@ namespace WatchStoreApp.UI.Services
                 CVV = checkoutInfoInput.CVV,
                 Order = orderCreateInput
             };
-            var responsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
-            if (!responsePayment)
+            var TResponsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
+            if (!TResponsePayment)
             {
                 return new OrderSuspendViewModel() { Error = "Ödəniş uğursuz oldu", IsSuccessful = false };
             }

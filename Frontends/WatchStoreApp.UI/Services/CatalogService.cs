@@ -1,4 +1,5 @@
-﻿using WatchStoreApp.UI.Helpers;
+﻿using WatchStore.Shared.Dtos;
+using WatchStoreApp.UI.Helpers;
 
 namespace WatchStoreApp.UI.Services
 {
@@ -49,7 +50,7 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CategoryViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<TResponse<List<CategoryViewModel>>>();
             return responseSuccess.Data;
         }
         public async Task<ProductViewModel> GetAllProductsAsync(int page)
@@ -60,8 +61,8 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseProductsSuccess = await responseProducts.Content.ReadFromJsonAsync<Response<List<ProductsModel>>>();
-            var responsePageInfoSuccess = await responsePageInfo.Content.ReadFromJsonAsync<Response<ProductPageInfo>>();
+            var responseProductsSuccess = await responseProducts.Content.ReadFromJsonAsync<TResponse<List<ProductsModel>>>();
+            var responsePageInfoSuccess = await responsePageInfo.Content.ReadFromJsonAsync<TResponse<ProductPageInfo>>();
             responseProductsSuccess.Data.ForEach(x =>
             {
                 x.Picture = _photoHelper.GetPhotoStockUrl(x.Picture);
@@ -80,7 +81,7 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<ProductsModel>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<TResponse<ProductsModel>>();
             responseSuccess.Data.Picture = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture);
             return responseSuccess.Data;
         }
@@ -91,7 +92,7 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<CategoryViewModel>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<TResponse<CategoryViewModel>>();
             return responseSuccess.Data;
         }
 
@@ -121,7 +122,7 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<ProductViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<TResponse<List<ProductViewModel>>>();
             return responseSuccess.Data;
         }
         public async Task<List<NewProductsViewModel>> GetNewProducts()
@@ -131,7 +132,11 @@ namespace WatchStoreApp.UI.Services
             {
                 return null;
             }
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<NewProductsViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<TResponse<List<NewProductsViewModel>>>();
+            responseSuccess.Data.ForEach(x =>
+            {
+                x.Picture = _photoHelper.GetPhotoStockUrl(x.Picture);
+            });
             return responseSuccess.Data;
         }
 

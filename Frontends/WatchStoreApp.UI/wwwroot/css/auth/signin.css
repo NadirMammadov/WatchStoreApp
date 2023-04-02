@@ -1,0 +1,15 @@
+﻿.sign-container{
+    width:100%;
+}
+.sign-container div {
+        width: 350px;
+        margin: auto
+}
+.sign-container div input{
+    border : none;
+    border-bottom : 1px solid black;
+    transition: all .3s ease;
+}
+.sign-container div input:focus{
+    border-color: red;
+}

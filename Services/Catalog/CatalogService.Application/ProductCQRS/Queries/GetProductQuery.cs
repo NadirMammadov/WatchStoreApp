@@ -1,6 +1,6 @@
 ﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
-    public class GetProductQuery : IRequest<Response<ProductDto>>
+    public class GetProductQuery : IRequest<TResponse<ProductDto>>
     {
         public string Id { get; set; }
         public GetProductQuery(string id)
@@ -9,7 +9,7 @@
         }
     }
 
-    public class GetProductQueryHandler : IRequestHandler<GetProductQuery, Response<ProductDto>>
+    public class GetProductQueryHandler : IRequestHandler<GetProductQuery, TResponse<ProductDto>>
     {
         private readonly IMapper _mapper;
         private readonly ICollectionDatabase<Product> _productCollectionDatabase;
@@ -22,7 +22,7 @@
             _categoryCollectionDatabase = categoryCollectionDatabase;
         }
 
-        public async Task<Response<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
@@ -31,9 +31,9 @@
             {
                 var category = await _categoryCollection.Find(ct => ct.Id == product.CategoryId).FirstOrDefaultAsync();
                 product.Category = new Category { Id = category.Id, Name = category.Name };
-                return Response<ProductDto>.Success(_mapper.Map<ProductDto>(product), 200);
+                return TResponse<ProductDto>.Success(_mapper.Map<ProductDto>(product), 200);
             }
-            return Response<ProductDto>.Fail("Not found product", 404);
+            return TResponse<ProductDto>.Fail("Not found product", 404);
 
         }
     }

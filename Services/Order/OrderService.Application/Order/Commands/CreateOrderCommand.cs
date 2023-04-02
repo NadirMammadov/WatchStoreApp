@@ -2,17 +2,17 @@
 using OrderService.Application.Dtos;
 using OrderService.Domain.OrderAggregate;
 using OrderService.Infrastructure;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace OrderService.Application.Order.Commands
 {
-    public class CreateOrderCommand : IRequest<Response<CreatedOrderDto>>
+    public class CreateOrderCommand : IRequest<TResponse<CreatedOrderDto>>
     {
         public string BuyerId { get; set; } = null!;
         public List<OrderItemDto> OrderItems { get; set; } = null!;
         public AddressDto Address { get; set; } = null!;
     }
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Response<CreatedOrderDto>>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, TResponse<CreatedOrderDto>>
     {
         private readonly OrderDbContext _context;
 
@@ -21,7 +21,7 @@ namespace OrderService.Application.Order.Commands
             _context = context;
         }
 
-        public async Task<Response<CreatedOrderDto>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<TResponse<CreatedOrderDto>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             Address newAddress = new Address(request.Address.Province, request.Address.District, request.Address.Street, request.Address.ZipCode, request.Address.Line);
             Domain.OrderAggregate.Order newOrder = new Domain.OrderAggregate.Order(request.BuyerId, newAddress);
@@ -31,7 +31,7 @@ namespace OrderService.Application.Order.Commands
             });
             await _context.Orders.AddAsync(newOrder);
             await _context.SaveChangesAsync();
-            return Response<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = newOrder.Id }, 201);
+            return TResponse<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = newOrder.Id }, 201);
         }
     }
 }

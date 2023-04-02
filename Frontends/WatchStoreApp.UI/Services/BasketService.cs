@@ -1,4 +1,5 @@
-﻿using WatchStoreApp.UI.Models.Baskets;
+﻿using WatchStore.Shared.Dtos;
+using WatchStoreApp.UI.Models.Baskets;
 
 namespace WatchStoreApp.UI.Services
 {
@@ -68,12 +69,12 @@ namespace WatchStoreApp.UI.Services
 
         public async Task<BasketViewModel> Get()
         {
-            var response = await _httpClient.GetAsync("baskets");
-            if (!response.IsSuccessStatusCode)
+            var TResponse = await _httpClient.GetAsync("baskets");
+            if (!TResponse.IsSuccessStatusCode)
             {
                 return null;
             }
-            var basketViewModel = await response.Content.ReadFromJsonAsync<Response<BasketViewModel>>();
+            var basketViewModel = await TResponse.Content.ReadFromJsonAsync<TResponse<BasketViewModel>>();
             return basketViewModel.Data;
         }
 
@@ -97,8 +98,8 @@ namespace WatchStoreApp.UI.Services
 
         public async Task<bool> SaveOrUpdate(BasketViewModel basketViewModel)
         {
-            var response = await _httpClient.PostAsJsonAsync<BasketViewModel>("baskets", basketViewModel);
-            return response.IsSuccessStatusCode;
+            var TResponse = await _httpClient.PostAsJsonAsync<BasketViewModel>("baskets", basketViewModel);
+            return TResponse.IsSuccessStatusCode;
         }
     }
 }

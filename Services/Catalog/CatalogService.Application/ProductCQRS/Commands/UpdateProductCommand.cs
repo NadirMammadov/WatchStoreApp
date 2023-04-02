@@ -1,7 +1,8 @@
-﻿
+﻿using WatchStore.Shared.Messages;
+using Mas = MassTransit;
 namespace CatalogService.Application.ProductCQRS.Commands
 {
-    public class UpdateProductCommand : IRequest<Response<NoContent>>
+    public class UpdateProductCommand : IRequest<TResponse<NoContent>>
     {
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
@@ -14,15 +15,17 @@ namespace CatalogService.Application.ProductCQRS.Commands
         public string CategoryId { get; set; } = null!;
         public decimal Price { get; set; }
     }
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<NoContent>>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, TResponse<NoContent>>
     {
         private readonly ICollectionDatabase<Product> _productCollectionDatabase;
+        private readonly Mas.IPublishEndpoint _publishEndpoint;
 
-        public UpdateProductCommandHandler(ICollectionDatabase<Product> productCollectionDatabase)
+        public UpdateProductCommandHandler(ICollectionDatabase<Product> productCollectionDatabase, Mas.IPublishEndpoint publishEndpoint)
         {
             _productCollectionDatabase = productCollectionDatabase;
+            _publishEndpoint = publishEndpoint;
         }
-        public async Task<Response<NoContent>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<TResponse<NoContent>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             Product product = new()
@@ -42,10 +45,14 @@ namespace CatalogService.Application.ProductCQRS.Commands
             var result = await _productCollection.FindOneAndReplaceAsync(x => x.Id == product.Id, product);
             if (result == null)
             {
-                return Response<NoContent>.Fail("Product not found", 404);
+                return TResponse<NoContent>.Fail("Product not found", 404);
             }
-
-            return Response<NoContent>.Success(204);
+            await _publishEndpoint.Publish<ProductNameChangeEvent>(new ProductNameChangeEvent
+            {
+                ProductId = product.Id,
+                UpdatedName = product.Name
+            });
+            return TResponse<NoContent>.Success(204);
         }
     }
 }

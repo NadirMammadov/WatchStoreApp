@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Dtos;
 using OrderService.Application.Mappings;
 using OrderService.Infrastructure;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace OrderService.Application.Order.Queries
 {
-    public class GetOrdersByUserIdQuery : IRequest<Response<List<OrderDto>>>
+    public class GetOrdersByUserIdQuery : IRequest<TResponse<List<OrderDto>>>
     {
         public string UserId { get; set; } = null!;
     }
 
-    public class GetOrdersByUserIdQueryHandler : IRequestHandler<GetOrdersByUserIdQuery, Response<List<OrderDto>>>
+    public class GetOrdersByUserIdQueryHandler : IRequestHandler<GetOrdersByUserIdQuery, TResponse<List<OrderDto>>>
     {
         private readonly OrderDbContext _context;
 
@@ -21,14 +21,14 @@ namespace OrderService.Application.Order.Queries
             _context = context;
         }
 
-        public async Task<Response<List<OrderDto>>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<List<OrderDto>>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
         {
             var orders = await _context.Orders.Include(x => x.OrderItems).Where(x => x.BuyerId == request.UserId).ToListAsync();
             if (!orders.Any())
             {
-                return Response<List<OrderDto>>.Success(new List<OrderDto>(), 200);
+                return TResponse<List<OrderDto>>.Success(new List<OrderDto>(), 200);
             }
-            return Response<List<OrderDto>>.Success(ObjectMapper.Mapper.Map<List<OrderDto>>(orders), 200);
+            return TResponse<List<OrderDto>>.Success(ObjectMapper.Mapper.Map<List<OrderDto>>(orders), 200);
         }
     }
 }

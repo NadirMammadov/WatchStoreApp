@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhotoStockService.API.Dtos;
-using WastchStore.Shared.Dtos;
 using WatchStore.Shared.ControllerBase;
+using WatchStore.Shared.Dtos;
 
 namespace PhotoStockService.API.Controllers
 {
@@ -19,9 +19,9 @@ namespace PhotoStockService.API.Controllers
                 await photo.CopyToAsync(stream, cancellationToken);
                 var returnPath = photo.FileName;
                 PhotoDto photoDto = new() { Url = returnPath };
-                return CreateActionResultInstance(Response<PhotoDto>.Success(photoDto, 200));
+                return CreateActionResultInstance(TResponse<PhotoDto>.Success(photoDto, 200));
             }
-            return CreateActionResultInstance(Response<NoContent>.Fail("photo is empty", 400));
+            return CreateActionResultInstance(TResponse<NoContent>.Fail("photo is empty", 400));
         }
 
         public IActionResult PhotoDelete(string photoUrl)
@@ -29,10 +29,10 @@ namespace PhotoStockService.API.Controllers
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/photos", photoUrl);
             if (!System.IO.File.Exists(path))
             {
-                return CreateActionResultInstance(Response<NoContent>.Fail("photo not found", 404));
+                return CreateActionResultInstance(TResponse<NoContent>.Fail("photo not found", 404));
             }
             System.IO.File.Delete(path);
-            return CreateActionResultInstance(Response<PhotoDto>.Success(204));
+            return CreateActionResultInstance(TResponse<PhotoDto>.Success(204));
         }
     }
 }

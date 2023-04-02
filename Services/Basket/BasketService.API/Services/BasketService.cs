@@ -1,6 +1,6 @@
 ﻿using BasketService.API.Dtos;
 using System.Text.Json;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace BasketService.API.Services
 {
@@ -13,29 +13,29 @@ namespace BasketService.API.Services
             _redisService = redisService;
         }
 
-        public async Task<Response<bool>> Delete(string userId)
+        public async Task<TResponse<bool>> Delete(string userId)
         {
             var status = await _redisService.GetDb().KeyDeleteAsync(userId);
-            return status ? Response<bool>.Success(204) : Response<bool>.Fail("Basket not found", 404);
+            return status ? TResponse<bool>.Success(204) : TResponse<bool>.Fail("Basket not found", 404);
         }
 
-        public async Task<Response<BasketDto>> GetBasket(string userId)
+        public async Task<TResponse<BasketDto>> GetBasket(string userId)
         {
             var existBasket = await _redisService.GetDb().StringGetAsync(userId);
 
             if (String.IsNullOrEmpty(existBasket))
             {
-                return Response<BasketDto>.Fail("Basket not found", 404);
+                return TResponse<BasketDto>.Fail("Basket not found", 404);
             }
 
-            return Response<BasketDto>.Success(JsonSerializer.Deserialize<BasketDto>(existBasket), 200);
+            return TResponse<BasketDto>.Success(JsonSerializer.Deserialize<BasketDto>(existBasket), 200);
         }
 
-        public async Task<Response<bool>> SaveOrUpdate(BasketDto basketDto)
+        public async Task<TResponse<bool>> SaveOrUpdate(BasketDto basketDto)
         {
             var status = await _redisService.GetDb().StringSetAsync(basketDto.UserId, JsonSerializer.Serialize(basketDto));
 
-            return status ? Response<bool>.Success(204) : Response<bool>.Fail("Basket could not update or save", 500);
+            return status ? TResponse<bool>.Success(204) : TResponse<bool>.Fail("Basket could not update or save", 500);
         }
     }
 }

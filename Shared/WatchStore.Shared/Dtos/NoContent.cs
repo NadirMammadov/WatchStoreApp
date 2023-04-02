@@ -1,4 +1,4 @@
-﻿namespace WastchStore.Shared.Dtos
+﻿namespace WatchStore.Shared.Dtos
 {
     public class NoContent
     {

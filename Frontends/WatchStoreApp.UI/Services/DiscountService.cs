@@ -1,4 +1,5 @@
-﻿using WatchStoreApp.UI.Models.Discount;
+﻿using WatchStore.Shared.Dtos;
+using WatchStoreApp.UI.Models.Discount;
 
 namespace WatchStoreApp.UI.Services
 {
@@ -17,7 +18,7 @@ namespace WatchStoreApp.UI.Services
             var response = await _httpClient.GetAsync($"discounts/getbycode/{discountCode}");
             if (!response.IsSuccessStatusCode)
                 return null;
-            var discount = await response.Content.ReadFromJsonAsync<Response<DiscountViewModel>>();
+            var discount = await response.Content.ReadFromJsonAsync<TResponse<DiscountViewModel>>();
             return discount.Data;
         }
     }

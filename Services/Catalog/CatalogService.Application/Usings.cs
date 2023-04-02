@@ -4,5 +4,5 @@ global using CatalogService.Application.Settings;
 global using CatalogService.Domain.Entities;
 global using MediatR;
 global using MongoDB.Driver;
-global using WastchStore.Shared.Dtos;
+global using WatchStore.Shared.Dtos;
 

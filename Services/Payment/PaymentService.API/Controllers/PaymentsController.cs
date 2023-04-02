@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.API.Models;
-using WastchStore.Shared.Dtos;
 using WatchStore.Shared.ControllerBase;
+using WatchStore.Shared.Dtos;
 using WatchStore.Shared.Messages;
 
 namespace PaymentService.API.Controllers
@@ -40,7 +40,7 @@ namespace PaymentService.API.Controllers
                 });
             });
             await sendEnpoint.Send<CreateOrderMessageCommand>(createorderMessageCommand);
-            return CreateActionResultInstance(WastchStore.Shared.Dtos.Response<NoContent>.Success(200));
+            return CreateActionResultInstance(TResponse<NoContent>.Success(200));
         }
     }
 }

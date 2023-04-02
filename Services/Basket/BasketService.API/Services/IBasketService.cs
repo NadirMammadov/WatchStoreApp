@@ -1,12 +1,12 @@
 ﻿using BasketService.API.Dtos;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace BasketService.API.Services
 {
     public interface IBasketService
     {
-        Task<Response<BasketDto>> GetBasket(string userId);
-        Task<Response<bool>> SaveOrUpdate(BasketDto basketDto);
-        Task<Response<bool>> Delete(string userId);
+        Task<TResponse<BasketDto>> GetBasket(string userId);
+        Task<TResponse<bool>> SaveOrUpdate(BasketDto basketDto);
+        Task<TResponse<bool>> Delete(string userId);
     }
 }

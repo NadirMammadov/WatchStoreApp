@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WacthStore.IdentityServer.Dtos;
 using WacthStore.IdentityServer.Models;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 using static IdentityServer4.IdentityServerConstants;
 
 namespace WacthStore.IdentityServer.Controllers
@@ -26,6 +26,7 @@ namespace WacthStore.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignupDto signupDto)
         {
+
             var user = new ApplicationUser()
             {
                 UserName = signupDto.UserName,
@@ -34,7 +35,7 @@ namespace WacthStore.IdentityServer.Controllers
             var result = await _userManager.CreateAsync(user, signupDto.Password);
             if (!result.Succeeded)
             {
-                return BadRequest(Response<NoContent>.Fail(result.Errors.Select(e => e.Description).ToList(), 400));
+                return BadRequest(TResponse<NoContent>.Fail(result.Errors.Select(e => e.Description).ToList(), 400));
             }
             return NoContent();
         }

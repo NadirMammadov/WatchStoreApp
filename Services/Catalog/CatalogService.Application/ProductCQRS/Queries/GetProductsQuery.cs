@@ -1,6 +1,6 @@
 ﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
-    public class GetProductsQuery : IRequest<Response<List<ProductListDto>>>
+    public class GetProductsQuery : IRequest<TResponse<List<ProductListDto>>>
     {
         public int Page { get; set; }
         public GetProductsQuery(int page)
@@ -10,7 +10,7 @@
     }
 
 
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, Response<List<ProductListDto>>>
+    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, TResponse<List<ProductListDto>>>
     {
         private readonly IMapper _mapper;
         private readonly ICollectionDatabase<Product> _productCollectionDatabase;
@@ -21,7 +21,7 @@
             _productCollectionDatabase = collectionDatabase;
             _categoryCollectionDatabase = categoryCollectionDatabase;
         }
-        public async Task<Response<List<ProductListDto>>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<List<ProductListDto>>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             var _categoryCollection = _categoryCollectionDatabase.GetMongoCollection();
@@ -34,7 +34,7 @@
                     product.Category = new Category { Id = category.Id, Name = category.Name };
                 }
             }
-            return Response<List<ProductListDto>>.Success(_mapper.Map<List<ProductListDto>>(products), 200);
+            return TResponse<List<ProductListDto>>.Success(_mapper.Map<List<ProductListDto>>(products), 200);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace CatalogService.Application.ProductCQRS.Queries
 {
-    public class GetProductCountQuery : IRequest<Response<ProductCountDto>> { }
-    public class GetProductCountQueryHandler : IRequestHandler<GetProductCountQuery, Response<ProductCountDto>>
+    public class GetProductCountQuery : IRequest<TResponse<ProductCountDto>> { }
+    public class GetProductCountQueryHandler : IRequestHandler<GetProductCountQuery, TResponse<ProductCountDto>>
     {
         private readonly IMapper _mapper;
         private readonly ICollectionDatabase<Product> _productCollectionDatabase;
@@ -10,12 +10,12 @@
             _mapper = mapper;
             _productCollectionDatabase = productCollectionDatabase;
         }
-        public async Task<Response<ProductCountDto>> Handle(GetProductCountQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<ProductCountDto>> Handle(GetProductCountQuery request, CancellationToken cancellationToken)
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             long productCount = await _productCollection.CountDocumentsAsync(product => true);
-            var responseDto = new ProductCountDto { ProductCount = productCount };
-            return Response<ProductCountDto>.Success(responseDto, 200);
+            var TResponseDto = new ProductCountDto { ProductCount = productCount };
+            return TResponse<ProductCountDto>.Success(TResponseDto, 200);
         }
     }
 

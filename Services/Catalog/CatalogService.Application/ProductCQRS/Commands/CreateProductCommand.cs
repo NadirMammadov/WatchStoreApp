@@ -1,6 +1,6 @@
 ﻿namespace CatalogService.Application.ProductCQRS.Commands
 {
-    public class CreateProductCommand : IRequest<Response<bool>>
+    public class CreateProductCommand : IRequest<TResponse<bool>>
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
@@ -12,7 +12,7 @@
         public string CategoryId { get; set; } = null!;
         public decimal Price { get; set; }
     }
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateProductCommand, Response<bool>>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateProductCommand, TResponse<bool>>
     {
 
         private readonly ICollectionDatabase<Product> _productCollectionDatabase;
@@ -22,7 +22,7 @@
             _productCollectionDatabase = productCollectionDatabase;
         }
 
-        public async Task<Response<bool>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<TResponse<bool>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var _productCollection = _productCollectionDatabase.GetMongoCollection();
             await _productCollection.InsertOneAsync(new Product()
@@ -38,7 +38,7 @@
                 Price = request.Price,
                 Created = DateTime.Now
             });
-            return Response<bool>.Success(201);
+            return TResponse<bool>.Success(201);
         }
     }
 }

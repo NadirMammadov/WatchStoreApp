@@ -2,7 +2,7 @@
 using DiscountService.API.Models;
 using Npgsql;
 using System.Data;
-using WastchStore.Shared.Dtos;
+using WatchStore.Shared.Dtos;
 
 namespace DiscountService.API.Services
 {
@@ -17,62 +17,64 @@ namespace DiscountService.API.Services
             _dbConnection = new NpgsqlConnection(_configuration.GetConnectionString("PostgroSql"));
         }
 
-        public async Task<Response<NoContent>> Delete(int id)
+        public async Task<TResponse<NoContent>> Delete(int id)
         {
             var status = await _dbConnection.ExecuteAsync("delete from discount where id=@Idd", new { Idd = id });
             if (status > 0)
             {
-                return Response<NoContent>.Success(204);
+                return TResponse<NoContent>.Success(204);
             }
-            return Response<NoContent>.Fail("Discount not found ", StatusCodes.Status404NotFound);
+            return TResponse<NoContent>.Fail("Discount not found ", StatusCodes.Status404NotFound);
         }
 
-        public async Task<Response<List<Discount>>> GetAll()
+        public async Task<TResponse<List<Discount>>> GetAll()
         {
             var discounts = await _dbConnection.QueryAsync<Discount>("select * from discount");
-            return Response<List<Discount>>.Success(discounts.ToList(), 200);
+            return TResponse<List<Discount>>.Success(discounts.ToList(), 200);
         }
 
-        public async Task<Response<Discount>> GetByCodeAndUserId(string code, string userId)
+        public async Task<TResponse<Discount>> GetByCodeAndUserId(string code, string userId)
         {
             var discount = await _dbConnection.QueryAsync<Discount>("select * from discount where userid=@UserId and code = @Code", new { UserId = userId, Code = code });
             var hasDiscount = discount.FirstOrDefault();
             if (hasDiscount == null)
             {
-                return Response<Discount>.Fail("Discount not found", 404);
+                return TResponse<Discount>.Fail("Discount not found", 404);
             }
-            return Response<Discount>.Success(hasDiscount, 200);
+            return TResponse<Discount>.Success(hasDiscount, 200);
         }
 
-        public async Task<Response<Discount>> GetById(int id)
+        public async Task<TResponse<Discount>> GetById(int id)
         {
             var discount = (await _dbConnection.QueryAsync<Discount>("select * from discount where id=@Id", new { id })).SingleOrDefault();
             if (discount == null)
             {
-                return Response<Discount>.Fail("Discount not found", 404);
+                return TResponse<Discount>.Fail("Discount not found", 404);
             }
-            return Response<Discount>.Success(discount, 200);
+            return TResponse<Discount>.Success(discount, 200);
         }
 
-        public async Task<Response<NoContent>> Save(Discount discount)
+        public async Task<TResponse<NoContent>> Save(Discount discount)
         {
             var saveStatus = await _dbConnection.ExecuteAsync("INSERT INTO discount (userid,rate,code) Values (@userid,@rate,@code)", discount);
             if (saveStatus > 0)
             {
-                return Response<NoContent>.Success(204);
+                return TResponse<NoContent>.Success(204);
             }
-            return Response<NoContent>.Fail("an error accured while adding", 500);
+            return TResponse<NoContent>.Fail("an error accured while adding", 500);
         }
 
-        public async Task<Response<NoContent>> Update(Discount discount)
+        public async Task<TResponse<NoContent>> Update(Discount discount)
         {
             var status = await _dbConnection.ExecuteAsync("update discount set userid=@UserId,code=@Code,rate=@Rate where id=@Id", discount);
 
             if (status > 0)
             {
-                return Response<NoContent>.Success(204);
+                return TResponse<NoContent>.Success(204);
             }
-            return Response<NoContent>.Fail("Discount not found", 404);
+            return TResponse<NoContent>.Fail("Discount not found", 404);
         }
+
+
     }
 }
