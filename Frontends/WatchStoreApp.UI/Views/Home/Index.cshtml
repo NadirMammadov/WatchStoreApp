@@ -15,17 +15,20 @@
             {
                 @foreach (var product in Model)
                 {
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-new-pro mb-30 text-center">
-                            <div class="product-img">
-                                <img src="@product.Picture" alt="">
-                            </div>
-                            <div class="product-caption">
-                                <h3><a href="product_details.html">@product.Name</a></h3>
-                                <span>$ @product.Price</span>
+                    <a asp-controller="Products" asp-action="Detail" asp-route-id="@product.Id">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-new-pro mb-30 text-center">
+                                <div class="product-img">
+                                    <img src="@product.Picture" alt="">
+                                </div>
+                                <div class="product-caption">
+                                    <h3><a href="product_details.html">@product.Name</a></h3>
+                                    <span>$ @product.Price</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                   
                 }
             }
         </div>

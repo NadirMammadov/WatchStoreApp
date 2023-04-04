@@ -15,7 +15,7 @@ namespace OrderService.Application.Consumers
 
         public async Task Consume(ConsumeContext<CreateOrderMessageCommand> context)
         {
-            var newAddress = new Domain.OrderAggregate.Address(context.Message.Province, context.Message.District, context.Message.Street, context.Message.ZipCode, context.Message.Line);
+            var newAddress = new Domain.OrderAggregate.Address(context.Message.Province, context.Message.District, context.Message.Street, context.Message.ZipCode);
             Domain.OrderAggregate.Order order = new Domain.OrderAggregate.Order(context.Message.BuyerId, newAddress);
             context.Message.OrderItems.ForEach(x =>
             {

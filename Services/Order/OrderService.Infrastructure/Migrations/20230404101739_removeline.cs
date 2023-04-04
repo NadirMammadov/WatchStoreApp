@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OrderService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class removeline : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,6 @@ namespace OrderService.Infrastructure.Migrations
                     Address_District = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_Line = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BuyerId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

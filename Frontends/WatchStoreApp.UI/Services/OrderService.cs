@@ -1,5 +1,6 @@
 ﻿using WatchStore.Shared.Dtos;
 using WatchStore.Shared.Services;
+using WatchStoreApp.UI.Helpers;
 using WatchStoreApp.UI.Models.Orders;
 using WatchStoreApp.UI.Models.Payment;
 
@@ -11,13 +12,15 @@ namespace WatchStoreApp.UI.Services
         private readonly HttpClient _httpClient;
         private readonly IBasketService _basketService;
         private readonly ISharedIdentityService _sharedIdentityService;
+        private readonly PhotoHelper _photoHelper;
 
-        public OrderService(IPaymentService paymentService, HttpClient httpClient, IBasketService basketService, ISharedIdentityService sharedIdentityService)
+        public OrderService(IPaymentService paymentService, HttpClient httpClient, IBasketService basketService, ISharedIdentityService sharedIdentityService, PhotoHelper photoHelper)
         {
             _paymentService = paymentService;
             _httpClient = httpClient;
             _basketService = basketService;
             _sharedIdentityService = sharedIdentityService;
+            _photoHelper = photoHelper;
         }
 
         public async Task<OrderCreatedViewModel> CreateOrder(CheckoutInfoInput checkoutInfoInput)
@@ -39,7 +42,7 @@ namespace WatchStoreApp.UI.Services
             var orderCreateInput = new OrderCreateInput()
             {
                 BuyerId = _sharedIdentityService.GetUserId,
-                Address = new AddressCreateInput { Province = checkoutInfoInput.Province, District = checkoutInfoInput.District, Street = checkoutInfoInput.Street, Line = checkoutInfoInput.Line, ZipCode = checkoutInfoInput.ZipCode },
+                Address = new AddressCreateInput { Province = checkoutInfoInput.Province, District = checkoutInfoInput.District, Street = checkoutInfoInput.Street, ZipCode = checkoutInfoInput.ZipCode },
             };
             basket.BasketItems.ForEach(x =>
             {
@@ -57,10 +60,17 @@ namespace WatchStoreApp.UI.Services
             return orderCreatedViewModel.Data;
         }
 
-        public async Task<List<OrderViewModel>> GetOrder()
+        public async Task<OrderViewModel> GetOrder(int orderId)
         {
-            var TResponse = await _httpClient.GetFromJsonAsync<TResponse<List<OrderViewModel>>>("orders");
-            return TResponse.Data;
+            var response = await _httpClient.GetFromJsonAsync<TResponse<OrderViewModel>>($"orders/{orderId}");
+
+            return response.Data;
+        }
+
+        public async Task<List<OrderViewModel>> GetOrders()
+        {
+            var response = await _httpClient.GetFromJsonAsync<TResponse<List<OrderViewModel>>>("orders");
+            return response.Data;
         }
 
         public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)
@@ -69,11 +79,17 @@ namespace WatchStoreApp.UI.Services
             var orderCreateInput = new OrderCreateInput()
             {
                 BuyerId = _sharedIdentityService.GetUserId,
-                Address = new AddressCreateInput { Province = checkoutInfoInput.Province, District = checkoutInfoInput.District, Street = checkoutInfoInput.Street, Line = checkoutInfoInput.Line, ZipCode = checkoutInfoInput.ZipCode },
+                Address = new AddressCreateInput
+                {
+                    Province = checkoutInfoInput.Province,
+                    District = checkoutInfoInput.District,
+                    Street = checkoutInfoInput.Street,
+                    ZipCode = checkoutInfoInput.ZipCode
+                },
             };
             basket.BasketItems.ForEach(x =>
             {
-                var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = "", ProductName = x.ProductName };
+                var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = x.PictureUrl, ProductName = x.ProductName };
                 orderCreateInput.OrderItems.Add(orderItem);
             });
             var paymentInfoInput = new PaymentInfoInput()

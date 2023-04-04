@@ -86,10 +86,6 @@ namespace OrderService.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("Line")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
                             b1.Property<string>("Province")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");

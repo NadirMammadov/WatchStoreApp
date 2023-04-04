@@ -31,6 +31,9 @@ namespace WacthStore.IdentityServer.Controllers
             {
                 UserName = signupDto.UserName,
                 Email = signupDto.Email,
+                PhoneNumber = signupDto.PhoneNumber,
+                FirstName = signupDto.FirstName,
+                LastName = signupDto.LastName
             };
             var result = await _userManager.CreateAsync(user, signupDto.Password);
             if (!result.Succeeded)
@@ -46,8 +49,23 @@ namespace WacthStore.IdentityServer.Controllers
             if (userIdClaim == null) return BadRequest();
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
             if (user == null) return BadRequest();
-            return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email });
+            return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, PhoneNumber = user.PhoneNumber, FirstName = user.FirstName, LastName = user.LastName });
 
+        }
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserName(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return BadRequest();
+            return Ok(new { UserName = user.UserName });
+
+        }
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> GetUserId(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) return BadRequest();
+            return Ok(new { Id = user.Id });
         }
     }
 }

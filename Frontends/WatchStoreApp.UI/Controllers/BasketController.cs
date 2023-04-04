@@ -23,7 +23,7 @@ namespace WatchStoreApp.UI.Controllers
         public async Task<IActionResult> AddBasketItem(string productId)
         {
             var product = await _catalogService.GetProductById(productId);
-            var basketItem = new BasketItemViewModel { ProductId = product.Id, ProductName = product.Name, Price = product.Price, Quantity = 1 };
+            var basketItem = new BasketItemViewModel { ProductId = product.Id, ProductName = product.Name, PictureUrl = product.Picture, Price = product.Price, Quantity = 1 };
             await _basketService.AddBasketItem(basketItem);
             return RedirectToAction(nameof(Index));
         }

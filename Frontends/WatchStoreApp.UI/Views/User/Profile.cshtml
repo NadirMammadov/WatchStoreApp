@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model UserViewModel
+<div class="row" style="max-width:100%; overflow:hidden">
+
+    <div class="col-md-7">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">Hesab məlumatları</h5>
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Ad:</th>
+                        <td>@Model.FirstName</td>
+                    </tr>
+                    <tr>
+                        <th>Soyad:</th>
+                        <td>@Model.LastName</td>
+                    </tr>
+
+                    <tr>
+                        <th>İstifadəçi adı:</th>
+                        <td>@Model.UserName</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <th>Telefon nömrəsi:</th>
+                        <td>@Model.PhoneNumber</td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>
+   
+    </div>
+
+    <div class="col-md-5">
+        <div class="list-group">
+             @await Component.InvokeAsync("Orders")
+        </div>
+    </div>
+
+</div>
+
+<div class="row mt-2" style="max-width:100%; overflow:hidden">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Endirim kodlarınız</h5>
+                    @await Component.InvokeAsync("Discounts")
+            </div>
+            
+        </div>
+    </div>
+</div>

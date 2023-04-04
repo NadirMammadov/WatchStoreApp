@@ -11,27 +11,33 @@
         <div class="card">
             <div class="card-body">
 
-                <h5 class="card-title">Sepet</h5>
+                <h5 class="card-title">Səbət</h5>
 
                 @if (Model != null && Model.BasketItems.Any())
                 {
                     <table class="table table-striped">
 
                         <tr>
-                            <th>Kurs isim</th>
-                            <th>Kurs fiyat</th>
-                            <th>İşlemler</th>
+                            <th></th>
+                            <th>Məhsulun adı</th>
+                            <th>Qiyməti</th>
+                            <th>Sayı</th>
+                            <th></th>
                         </tr>
 
                         @foreach (var item in Model.BasketItems)
                         {
                             <tr>
-                                <td>@item.ProductName</td>
+                                <td><img style="width:80px" src="@item.PictureUrl"/></td>
+                                <td >@item.ProductName</td>
                                 <td>
                                     @item.GetCurrentPrice TL @(Model.HasDiscount ? $"(%{Model.DiscountRate.Value} uygulandı)" : "")
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-productId="@item.ProductId">sil</a>
+                                    @item.Quantity
+                                </td>
+                                <td>
+                                    <a asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-productId="@item.ProductId" style="color:red; font-size:1.5rem"><i class="fa-sharp fa-solid fa-xmark"></i></a>
                                 </td>
                             </tr>
                         }
@@ -40,15 +46,15 @@
                         {
 
                             <tr>
-                                <td>Indirim oranı</td>
+                                <td>Endirim</td>
                                 <th colspan="2"> % @Model.DiscountRate.Value</th>
                             </tr>
 
                         }
 
                         <tr>
-                            <td>@(Model.HasDiscount ? "İndirimli fiyat" : "Toplam fiyat")</td>
-                            <th colspan="2">@Model.TotalPrice TL</th>
+                            <td>@(Model.HasDiscount ? "Endirimli qiymət" : "Toplam qiymət")</td>
+                            <th colspan="2">@Model.TotalPrice AZN</th>
                         </tr>
                     </table>
 
@@ -56,32 +62,37 @@
                         @if (Model.HasDiscount)
                         {
                             <div class="alert alert-success">
-                                "@Model.DiscountCode"indirim kodu uygulandı
-                                <a asp-controller="Basket" asp-action="CancelApplyDiscount"> (iptal et)</a>
+                                "@Model.DiscountCode" endirim kuponu istifadə edildi
+                                <a asp-controller="Basket" asp-action="CancelApplyDiscount"> Kuponu ləğv et</a>
                             </div>
 
                         }
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="DiscountApplyInput.Code">
-                            <button class="btn btn-outline-secondary" type="submit">Uygula</button>
+                            <input type="text" class="form-control" placeholder="Endirim kodunu daxil edin" name="DiscountApplyInput.Code">
+                            <button class="ml-2 genric-btn primary small" type="submit">İstifadə et</button>
                         </div>
 
                         @if (TempData["discountStatus"] != null && (bool)TempData["discountStatus"] == false)
                         {
-                            <div class="text-danger">indirim kodu geçersiz</div>
+                            <div class="alert alert-danger text-danger">Endirim kodu tapılmadı</div>
                         }
                         @if (TempData["discountError"] != null)
                         {
                             <div class="text-danger">@TempData["discountError"]</div>
                         }
                     </form>
-                    <a class="btn btn-success" asp-controller="Orders" asp-action="Checkout">Ödeme bilgileri</a>
-                    <a class="btn btn-warning" asp-controller="Home" asp-action="Index">Kursları incelemeye devam et</a>
+                    <a class="genric-btn danger circle" asp-controller="Orders" asp-action="Checkout">Ödəniş et</a>
+                    <a class="genric-btn danger circle" asp-controller="Home" asp-action="Index">Aliş veriş etməyə davam edin</a>
                 }
                 else
                 {
-                    <div class="alert alert-info">Sepet boş</div>
+                    <div class="alert alert-info py-3">
+                        Səbətiniz boşdur :(
+                        <p class="text-info">Səbətinizə məhsul <a asp-action="Index" asp-controller="Products" class="text-danger"> əlavə edin :)</a></p>
+                        
+                    </div>
+                   
                 }
             </div>
         </div>

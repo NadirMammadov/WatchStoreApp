@@ -32,7 +32,16 @@ namespace DiscountService.API.Services
             var discounts = await _dbConnection.QueryAsync<Discount>("select * from discount");
             return TResponse<List<Discount>>.Success(discounts.ToList(), 200);
         }
-
+        public async Task<TResponse<List<Discount>>> GetByUserId(string userId)
+        {
+            var discount = await _dbConnection.QueryAsync<Discount>("select * from discount where userid=@UserId", new { UserId = userId });
+            var hasdicount = discount.ToList();
+            if (hasdicount == null)
+            {
+                return TResponse<List<Discount>>.Fail("Discount not found", 404);
+            }
+            return TResponse<List<Discount>>.Success(hasdicount, 200);
+        }
         public async Task<TResponse<Discount>> GetByCodeAndUserId(string code, string userId)
         {
             var discount = await _dbConnection.QueryAsync<Discount>("select * from discount where userid=@UserId and code = @Code", new { UserId = userId, Code = code });

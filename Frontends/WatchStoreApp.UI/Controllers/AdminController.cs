@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using WatchStoreApp.UI.Models.Discount;
+
 namespace WatchStoreApp.UI.Controllers
 {
     [Authorize]
     public class AdminController : Controller
     {
         private readonly ICatalogService _catalogService;
-
-        public AdminController(ICatalogService catalogService)
+        private readonly IUserService _userService;
+        private readonly IDiscountService _discountService;
+        public AdminController(ICatalogService catalogService, IDiscountService discountService, IUserService userService)
         {
             _catalogService = catalogService;
+            _discountService = discountService;
+            _userService = userService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -36,7 +41,7 @@ namespace WatchStoreApp.UI.Controllers
         public async Task<IActionResult> ProductCreate(ProductCreateInput productCreateInput)
         {
             var response = await _catalogService.CreateProductAsync(productCreateInput);
-            return RedirectToAction("Products");
+            return RedirectToAction(nameof(Products));
         }
         [HttpGet]
         public IActionResult CategoryCreate()
@@ -47,7 +52,7 @@ namespace WatchStoreApp.UI.Controllers
         public IActionResult CategoryCreate(CategoryCreateInput categoryCreateInput)
         {
             _catalogService.CreateCategoryAsync(categoryCreateInput);
-            return RedirectToAction("Categories");
+            return RedirectToAction(nameof(Categories));
         }
         [HttpGet]
         [Route("admin/productUpdate/{productId}")]
@@ -74,7 +79,7 @@ namespace WatchStoreApp.UI.Controllers
         public async Task<IActionResult> ProductUpdate(ProductUpdateModel productUpdateModel)
         {
             await _catalogService.UpdateProductAsync(productUpdateModel);
-            return RedirectToAction("Products");
+            return RedirectToAction(nameof(Products));
         }
         [HttpGet]
         [Route("admin/categoryUpdate/{categoryId}")]
@@ -93,21 +98,49 @@ namespace WatchStoreApp.UI.Controllers
         public async Task<IActionResult> CategoryUpdate(CategoryUpdateInput categoryUpdateInput)
         {
             await _catalogService.UpdateCategoryAsync(categoryUpdateInput);
-            return RedirectToAction("Categories");
+            return RedirectToAction(nameof(Categories));
         }
         [HttpGet]
         [Route("admin/productdelete/{productId}")]
         public async Task<IActionResult> ProductDelete(string productId)
         {
             await _catalogService.DeleteProductAsync(productId);
-            return RedirectToAction("Products");
+            return RedirectToAction(nameof(Products));
         }
         [HttpGet]
         [Route("admin/categorydelete/{categoryId}")]
         public async Task<IActionResult> CategoryDelete(string categoryId)
         {
             await _catalogService.DeleteCategoryAsync(categoryId);
-            return RedirectToAction("Categories");
+            return RedirectToAction(nameof(Categories));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Discounts()
+        {
+            var response = await _discountService.GetDiscounts();
+            return View(response);
+        }
+
+        [HttpGet]
+        [Route("admin/discountdelete/{discountId}")]
+        public async Task<IActionResult> DiscountDelete(int discountId)
+        {
+            var response = await _discountService.DiscountDelete(discountId);
+            return RedirectToAction(nameof(Discounts));
+        }
+        [HttpGet]
+        public IActionResult DiscountCreate()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DiscountCreate(DiscountCreateInput discountCreateInput)
+        {
+            discountCreateInput.UserId = _userService.GetUserById(discountCreateInput.UserName).Result.Id.ToString();
+            await _discountService.DiscountCreate(discountCreateInput);
+            return RedirectToAction(nameof(Discounts));
         }
     }
 }

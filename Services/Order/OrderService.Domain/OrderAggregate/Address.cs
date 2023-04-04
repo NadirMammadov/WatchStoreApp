@@ -12,15 +12,13 @@ namespace OrderService.Domain.OrderAggregate
 
         public string ZipCode { get; private set; }
 
-        public string Line { get; private set; }
 
-        public Address(string province, string district, string street, string zipCode, string line)
+        public Address(string province, string district, string street, string zipCode)
         {
             Province = province;
             District = district;
             Street = street;
             ZipCode = zipCode;
-            Line = line;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
@@ -29,7 +27,6 @@ namespace OrderService.Domain.OrderAggregate
             yield return District;
             yield return Street;
             yield return ZipCode;
-            yield return Line;
         }
     }
 }

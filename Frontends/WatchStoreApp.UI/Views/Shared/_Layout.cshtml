@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="~/assets/css/slick.css">
     <link rel="stylesheet" href="~/assets/css/nice-select.css">
     <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WatchStoreApp.UI.styles.css" asp-append-version="true" />*@
@@ -39,7 +40,7 @@
                             <nav>
                                 <ul id="navigation">
                                     <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-                                    <li><a asp-action="Index" asp-controller="Products">shop</a></li>
+                                    <li><a asp-action="Index" asp-controller="Products">Məhsullar</a></li>
                                     <li><a href="about.html">about</a></li>
                                     <li class="hot">
                                         <a href="#">Latest</a>
@@ -60,6 +61,7 @@
                                         <ul class="submenu">
                                             <li><a href="login.html">Login</a></li>
                                             <li><a href="cart.html">Cart</a></li>
+                                            <li><a href="cart.html">Cart</a></li>
                                             <li><a href="elements.html">Element</a></li>
                                             <li><a href="confirmation.html">Confirmation</a></li>
                                             <li><a href="checkout.html">Product Checkout</a></li>
@@ -71,7 +73,8 @@
                         </div>
                         <!-- Header Right -->
                         <div class="header-right">
-                            <ul>
+                            <nav>
+                            <ul id="navigation">
                                 <li>
                                     <div class="nav-search search-switch">
                                         <span class="flaticon-search"></span>
@@ -81,14 +84,16 @@
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <a asp-action="Profile" asp-controller="User"><span class="flaticon-user"></span></a>
+                                            <a asp-action="Logout" asp-controller="Auth"><i class="fa-solid fa-right-from-bracket logout" style=""></i></a>
                                     }
                                     else
                                     {
-                                        <a asp-action="SignIn" asp-controller="Auth"><span class="flaticon-user"></span></a>
+                                        <a asp-action="SignIn" asp-controller="Auth" ><span class="flaticon-user"></span></a>
                                     }
                                 </li>
-                                <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li>
+                                <li><a asp-action="Index" asp-controller="Basket"><span class="flaticon-shopping-cart"></span></a> </li>
                             </ul>
+                            </nav>
                         </div>
                     </div>
                     <!-- Mobile Menu -->

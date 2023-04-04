@@ -1,0 +1,40 @@
+﻿@model OrderViewModel
+<div class="row">
+    <div class="col-md-9">
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+                <th>Məhsulun adı</th>
+                <th>Qiyməti</th>
+            </tr>
+            @foreach (var order in Model.OrderItems)
+            {
+                 <tr>
+                    <td><img style="width:70px" src="@order.PictureUrl" /></td>
+                    <td>@order.ProductName</td>
+                    <td>@order.Price</td>
+                 </tr>
+            }
+           
+        </table>
+    </div>
+
+    <div class="col-md-3">
+        <table class="table table-striped">
+            <tr>
+                <th>Sifariş No:</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>Sifariş tarix</th>
+                <td>@Model.CreatedDate</td>
+            </tr>
+            <tr>
+                <th>Məhsul sayı</th>
+                <td>@Model.OrderItems.Count</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+

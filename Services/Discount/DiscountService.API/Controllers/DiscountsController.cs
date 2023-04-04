@@ -34,6 +34,12 @@ namespace DiscountService.API.Controllers
         {
             return CreateActionResultInstance(await _discountService.GetByCodeAndUserId(code, _sharedIdentityService.GetUserId));
         }
+        [HttpGet]
+        [Route("/api/[controller]/[action]")]
+        public async Task<IActionResult> GetByUserId()
+        {
+            return CreateActionResultInstance(await _discountService.GetByUserId(_sharedIdentityService.GetUserId));
+        }
         [HttpPost]
         public async Task<IActionResult> Save(Discount discount)
         {

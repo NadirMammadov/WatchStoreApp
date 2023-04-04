@@ -1,0 +1,27 @@
+﻿@model List<AdminDiscountViewModel>
+<h5 style="text-align:center;">Endirim kodları</h5>
+<a asp-action="DiscountCreate" asp-controller="Admin">Endirim kodu əlavə et</a>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Müştəri adı</th>
+            <th scope="col">Endirim kodu</th>
+            <th scope="col">Endirim faizi</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var discount in Model)
+        {
+            <tr class="">
+                <td >@discount.UserName</td>
+                <td >@discount.Code</td>
+                <td >@discount.Rate</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="DiscountUpdate" asp-route-discountId="@discount.Id" class="text-warning">Güncəllə</a><br /><a asp-controller="Admin" asp-action="DiscountDelete" asp-route-discountId="@discount.Id" class="text-danger">Sil</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

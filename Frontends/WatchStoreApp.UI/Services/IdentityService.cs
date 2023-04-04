@@ -106,6 +106,7 @@ namespace WatchStoreApp.UI.Services
                 UserName = signinInput.Email,
                 Password = signinInput.Password,
                 Address = disco.TokenEndpoint
+
             };
 
             var token = await _client.RequestPasswordTokenAsync(passwordTokenRequest);

@@ -23,6 +23,12 @@ namespace OrderService.API.Controllers
             var response = await Mediator.Send(new GetOrdersByUserIdQuery { UserId = _sharedIdentityService.GetUserId });
             return CreateActionResultInstance(response);
         }
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> GetOrders(int orderId)
+        {
+            var response = await Mediator.Send(new GetOrderByIdQuery(orderId));
+            return CreateActionResultInstance(response);
+        }
         [HttpPost]
         public async Task<IActionResult> SaveOrder(CreateOrderCommand command)
         {

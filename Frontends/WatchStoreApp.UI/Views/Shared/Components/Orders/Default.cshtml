@@ -1,0 +1,24 @@
+﻿@model List<OrderViewModel>
+
+
+<table class="table table-striped">
+   <thead>
+       <th>Sifariş No.</th>
+       <th>Sifariş tarix</th>
+       <th>Məhsul sayı</th>
+       <th></th>
+   </thead>
+   <tbdoy>
+       @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.CreatedDate</td>
+                <td>@order.OrderItems.Count</td>
+                <td><a class="genric-btn danger circle" asp-action="Detail" asp-controller="Orders" asp-route-orderId="@order.Id" a>Ətraflı</a></td>
+            </tr>
+        }
+        
+   </tbdoy>
+
+</table>

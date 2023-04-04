@@ -1,0 +1,23 @@
+﻿@model List<DiscountViewModel>
+
+@if(Model.Any())
+{
+    <table class="table table-striped">
+        <tr>
+            <th>Endirim kodu</th>
+           <th>Endirim faizi</th>
+        </tr>
+        @foreach (var discount in Model)
+        {
+            <tr>
+                <td>@discount.Code</td>
+                <td>@discount.Rate</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p class="text-danger">Təssüfkü endirim kodunuz yoxdur</p>
+}
+

@@ -15,12 +15,20 @@ namespace WatchStoreApp.UI.Services
 
         public async Task AddBasketItem(BasketItemViewModel basketItemViewModel)
         {
+            if (basketItemViewModel.Quantity == 0)
+            {
+                basketItemViewModel.Quantity = 1;
+            }
             var basket = await Get();
             if (basket != null)
             {
                 if (!basket.BasketItems.Any(x => x.ProductId == basketItemViewModel.ProductId))
                 {
                     basket.BasketItems.Add(basketItemViewModel);
+                }
+                else
+                {
+                    basket.BasketItems.FirstOrDefault(x => x.ProductId == basketItemViewModel.ProductId).Quantity += 1;
                 }
             }
             else

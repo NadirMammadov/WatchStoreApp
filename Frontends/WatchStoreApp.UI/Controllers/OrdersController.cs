@@ -12,7 +12,11 @@ namespace WatchStoreApp.UI.Controllers
             _basketService = basketService;
             _orderService = orderService;
         }
-
+        public async Task<IActionResult> Detail(int orderId)
+        {
+            var order = await _orderService.GetOrder(orderId);
+            return View(order);
+        }
         public async Task<IActionResult> Checkout()
         {
             var basket = await _basketService.Get();
@@ -42,7 +46,7 @@ namespace WatchStoreApp.UI.Controllers
 
         public async Task<IActionResult> CheckoutHistory()
         {
-            return View(await _orderService.GetOrder());
+            return View(await _orderService.GetOrders());
         }
     }
 }

@@ -5,6 +5,7 @@ namespace DiscountService.API.Services
 {
     public interface IDiscountService
     {
+        Task<TResponse<List<Discount>>> GetByUserId(string userId);
         Task<TResponse<List<Discount>>> GetAll();
         Task<TResponse<Discount>> GetById(int id);
         Task<TResponse<NoContent>> Save(Discount discount);

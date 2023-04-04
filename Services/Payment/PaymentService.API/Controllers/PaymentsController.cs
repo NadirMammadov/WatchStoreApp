@@ -26,7 +26,6 @@ namespace PaymentService.API.Controllers
             createorderMessageCommand.BuyerId = paymentDto.Order.BuyerId;
             createorderMessageCommand.District = paymentDto.Order.Address.District;
             createorderMessageCommand.Street = paymentDto.Order.Address.Street;
-            createorderMessageCommand.Line = paymentDto.Order.Address.Line;
             createorderMessageCommand.Province = paymentDto.Order.Address.Province;
             createorderMessageCommand.ZipCode = paymentDto.Order.Address.ZipCode;
             paymentDto.Order.OrderItems.ForEach(x =>

@@ -12,8 +12,8 @@ using OrderService.Infrastructure;
 namespace OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20230322123122_Initial")]
-    partial class Initial
+    [Migration("20230404101739_removeline")]
+    partial class removeline
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,10 +86,6 @@ namespace OrderService.Infrastructure.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<string>("District")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Line")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 

@@ -9,7 +9,7 @@
             _userService = userService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Profile()
         {
             return View(await _userService.GetUser());
         }

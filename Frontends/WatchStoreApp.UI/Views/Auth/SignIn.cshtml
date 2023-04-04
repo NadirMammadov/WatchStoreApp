@@ -5,7 +5,7 @@
     <div>
         <h1>SignIn</h1>
         <form asp-controller="Auth" asp-action="SignIn" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All" class="alert mb-2 alert-danger small" style="background-color:#f44a40"></div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">Email address</label>
                 <input type="email" asp-for="Email" class="form-control" >

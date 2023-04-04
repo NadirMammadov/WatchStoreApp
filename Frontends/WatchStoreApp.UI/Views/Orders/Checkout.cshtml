@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Adres bilgileri</h5>
+                    <h5 class="card-title">Ünvan məlumatları</h5>
 
                     <div class="mb-3">
                         <label class="form-label" asp-for="Province"></label>
@@ -21,10 +21,6 @@
                     <div class="mb-3">
                         <label class="form-label" asp-for="Street"></label>
                         <input asp-for="Street" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="Line"></label>
-                        <input asp-for="Line" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" asp-for="ZipCode"></label>
@@ -55,7 +51,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Ödeme özet</h5>
+                    <h5 class="card-title">Ödəniş</h5>
                     <table class="table table-striped">
                         @foreach (var item in ViewBag.basket.BasketItems as List<BasketItemViewModel>)
                         {
@@ -66,12 +62,12 @@
                         }
 
                         <tr>
-                            <td>@(ViewBag.basket.HasDiscount ? "indirimli toplam fiyat" : "toplam fiyat")</td>
-                            <td>@ViewBag.basket.TotalPrice TL</td>
+                            <td>@(ViewBag.basket.HasDiscount ? "Endirimli toplam qiymət" : "Qiymət")</td>
+                            <td>@ViewBag.basket.TotalPrice AZN</td>
                         </tr>
                     </table>
 
-                    <button type="submit" class="btn btn-success">Ödemeyi tamamla</button>
+                    <button type="submit" class="btn btn-success">Ödənişi tamamla</button>
                 </div>
             </div>
         </div>
