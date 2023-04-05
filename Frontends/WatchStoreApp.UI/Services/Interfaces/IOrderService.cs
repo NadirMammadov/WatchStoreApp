@@ -6,7 +6,8 @@ namespace WatchStoreApp.UI.Services.Interfaces
     {
         Task<OrderCreatedViewModel> CreateOrder(CheckoutInfoInput checkoutInfoInput);
         Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput);
+        Task<List<AdminOrderViewModel>> GetOrders();
         Task<OrderViewModel> GetOrder(int orderId);
-        Task<List<OrderViewModel>> GetOrders();
+        Task<List<OrderViewModel>> GetOrdersByUserId();
     }
 }

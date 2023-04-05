@@ -6,7 +6,6 @@ namespace WatchStoreApp.UI.Services.Interfaces
     public interface IIdentityService
     {
         Task<TResponse<bool>> SignIn(SigninInput signInInput);
-        Task<TResponse<bool>> SignUp(SignUpInput signUpInput);
 
         Task<TokenResponse> GetAccessTokenByRefreshToken();
         Task RevokeRefreshToken();

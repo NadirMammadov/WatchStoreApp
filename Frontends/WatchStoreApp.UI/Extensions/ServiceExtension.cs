@@ -19,7 +19,10 @@ namespace WatchStoreApp.UI.Extensions
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUrl}/{serviceApiSettings.PhotoStock.Path}");
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
-
+            services.AddHttpClient<ISignupService, SignupService>(opt =>
+            {
+                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUrl);
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
             services.AddHttpClient<IUserService, UserService>(opt =>
             {

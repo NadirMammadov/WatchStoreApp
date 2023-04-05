@@ -1,0 +1,32 @@
+﻿@model List<AdminOrderViewModel>
+
+<h2 class="text-center"><a asp-controller="Admin" asp-action="Index" class="text-dark">Admin Panel</a></h2>
+<div class="container">
+    <h5>Sifarişlər</h5>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Sifariş ID</th>
+                <th scope="col">Müştərinin adı</th>
+                <th scope="col">Sifariş tarixi</th>
+                <th scope="col">Məhsul sayı</th>
+                <th scope="col">Keçid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr class="">
+                    <td>@order.Id</td>
+                    <td>@order.UserName</td>
+                    <td>@order.CreatedDate</td>
+                    <td>@order.OrderItems.Count</td>
+                    <td><a class="text-danger" asp-action="OrderDetail" asp-controller="Admin" asp-route-orderId="@order.Id">Ətraflı</a></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+

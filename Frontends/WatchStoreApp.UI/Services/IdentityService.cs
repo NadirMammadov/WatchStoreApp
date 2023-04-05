@@ -153,11 +153,7 @@ namespace WatchStoreApp.UI.Services
 
             return TResponse<bool>.Success(200);
         }
-        public async Task<TResponse<bool>> SignUp(SignUpInput signUpInput)
-        {
-            var response = await _client.PostAsJsonAsync<SignUpInput>("/api/user/signup", signUpInput);
-            return TResponse<bool>.Success(200);
-        }
+
 
     }
 }

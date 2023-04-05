@@ -6,9 +6,11 @@ namespace WatchStoreApp.UI.Controllers
     public class AuthController : Controller
     {
         private readonly IIdentityService _identityService;
-        public AuthController(IIdentityService identityService)
+        private readonly ISignupService _signupService;
+        public AuthController(IIdentityService identityService, ISignupService signupService)
         {
             _identityService = identityService;
+            _signupService = signupService;
         }
         #region SignIn
         [HttpGet]
@@ -51,7 +53,7 @@ namespace WatchStoreApp.UI.Controllers
             {
                 return View(signupInput);
             }
-            var response = await _identityService.SignUp(signupInput);
+            var response = await _signupService.SignUp(signupInput);
             if (!response.IsSuccessful)
             {
                 response.Errors.ForEach(x =>

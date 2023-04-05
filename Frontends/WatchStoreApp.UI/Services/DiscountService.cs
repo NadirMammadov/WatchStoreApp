@@ -53,5 +53,19 @@ namespace WatchStoreApp.UI.Services
             var response = await _httpClient.DeleteAsync($"discounts/{id}");
             return response.IsSuccessStatusCode;
         }
+        public async Task<DiscountViewModel> GetDiscountById(int id)
+        {
+            var response = await _httpClient.GetAsync($"discounts/{id}");
+            var discount = await response.Content.ReadFromJsonAsync<TResponse<DiscountViewModel>>();
+            return discount.Data;
+        }
+
+        public async Task<bool> DiscountUpdate(DiscountUpdateInput discountUpdateInput)
+        {
+            discountUpdateInput.UserId = _userService.GetUserById(discountUpdateInput.UserName).Result.Id;
+            var response = await _httpClient.PutAsJsonAsync<DiscountUpdateInput>("discounts", discountUpdateInput);
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

@@ -39,7 +39,7 @@ builder.Services.AddControllersWithViews().AddFluentValidation(fv => fv.Register
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }

@@ -3,17 +3,19 @@ using WatchStoreApp.UI.Models.Discount;
 
 namespace WatchStoreApp.UI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly ICatalogService _catalogService;
         private readonly IUserService _userService;
         private readonly IDiscountService _discountService;
-        public AdminController(ICatalogService catalogService, IDiscountService discountService, IUserService userService)
+        private readonly IOrderService _orderService;
+        public AdminController(ICatalogService catalogService, IDiscountService discountService, IUserService userService, IOrderService orderService)
         {
             _catalogService = catalogService;
             _discountService = discountService;
             _userService = userService;
+            _orderService = orderService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -141,6 +143,40 @@ namespace WatchStoreApp.UI.Controllers
             discountCreateInput.UserId = _userService.GetUserById(discountCreateInput.UserName).Result.Id.ToString();
             await _discountService.DiscountCreate(discountCreateInput);
             return RedirectToAction(nameof(Discounts));
+        }
+
+        [HttpGet]
+        [Route("admin/discountUpdate/{discountId}")]
+        public async Task<IActionResult> DiscountUpdate(int discountId)
+        {
+            var discount = await _discountService.GetDiscountById(discountId);
+            var discountUpdateInput = new DiscountUpdateInput
+            {
+                Id = discount.Id,
+                Code = discount.Code,
+                Rate = discount.Rate,
+                UserId = discount.UserId,
+                UserName = _userService.GetUserName(discount.UserId).Result.UserName.ToString()
+            };
+            return View(discountUpdateInput);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DiscountUpdate(DiscountUpdateInput discountUpdateInput)
+        {
+            await _discountService.DiscountUpdate(discountUpdateInput);
+            return RedirectToAction(nameof(Discounts));
+        }
+
+
+        public async Task<IActionResult> Orders()
+        {
+            var orders = await _orderService.GetOrders();
+            return View(orders);
+        }
+        public async Task<IActionResult> OrderDetail(int orderId)
+        {
+            var order = await _orderService.GetOrder(orderId);
+            return View(order);
         }
     }
 }

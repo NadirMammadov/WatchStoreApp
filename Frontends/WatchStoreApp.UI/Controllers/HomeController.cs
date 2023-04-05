@@ -19,7 +19,14 @@ namespace WatchStoreApp.UI.Controllers
             var products = await _catalogService.GetNewProducts();
             return View(products);
         }
-
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

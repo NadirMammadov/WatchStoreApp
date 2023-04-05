@@ -9,18 +9,20 @@ namespace WatchStoreApp.UI.Services
     public class OrderService : IOrderService
     {
         private readonly IPaymentService _paymentService;
+        private readonly IUserService _userService;
         private readonly HttpClient _httpClient;
         private readonly IBasketService _basketService;
         private readonly ISharedIdentityService _sharedIdentityService;
         private readonly PhotoHelper _photoHelper;
 
-        public OrderService(IPaymentService paymentService, HttpClient httpClient, IBasketService basketService, ISharedIdentityService sharedIdentityService, PhotoHelper photoHelper)
+        public OrderService(IPaymentService paymentService, HttpClient httpClient, IBasketService basketService, ISharedIdentityService sharedIdentityService, PhotoHelper photoHelper, IUserService userService)
         {
             _paymentService = paymentService;
             _httpClient = httpClient;
             _basketService = basketService;
             _sharedIdentityService = sharedIdentityService;
             _photoHelper = photoHelper;
+            _userService = userService;
         }
 
         public async Task<OrderCreatedViewModel> CreateOrder(CheckoutInfoInput checkoutInfoInput)
@@ -67,9 +69,19 @@ namespace WatchStoreApp.UI.Services
             return response.Data;
         }
 
-        public async Task<List<OrderViewModel>> GetOrders()
+        public async Task<List<AdminOrderViewModel>> GetOrders()
         {
-            var response = await _httpClient.GetFromJsonAsync<TResponse<List<OrderViewModel>>>("orders");
+            var response = await _httpClient.GetFromJsonAsync<TResponse<List<AdminOrderViewModel>>>("orders");
+            response.Data.ForEach(x =>
+            {
+                x.UserName = _userService.GetUserName(x.BuyerId).Result.UserName.ToString();
+            });
+            return response.Data;
+        }
+
+        public async Task<List<OrderViewModel>> GetOrdersByUserId()
+        {
+            var response = await _httpClient.GetFromJsonAsync<TResponse<List<OrderViewModel>>>("orders/GetOrdersByUserId");
             return response.Data;
         }
 
@@ -89,7 +101,7 @@ namespace WatchStoreApp.UI.Services
             };
             basket.BasketItems.ForEach(x =>
             {
-                var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = x.PictureUrl, ProductName = x.ProductName };
+                var orderItem = new OrderItemCreateInput { ProductId = x.ProductId, Price = x.GetCurrentPrice, PictureUrl = x.PictureUrl, ProductName = x.ProductName, Quantity = x.Quantity };
                 orderCreateInput.OrderItems.Add(orderItem);
             });
             var paymentInfoInput = new PaymentInfoInput()

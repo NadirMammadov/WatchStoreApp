@@ -1,8 +1,10 @@
-﻿using WatchStoreApp.UI.Models.Baskets;
+﻿using Microsoft.AspNetCore.Authorization;
+using WatchStoreApp.UI.Models.Baskets;
 using WatchStoreApp.UI.Models.Discount;
 
 namespace WatchStoreApp.UI.Controllers
 {
+    [Authorize]
     public class BasketController : Controller
     {
         private readonly ICatalogService _catalogService;
@@ -20,10 +22,17 @@ namespace WatchStoreApp.UI.Controllers
             return View(response);
         }
 
-        public async Task<IActionResult> AddBasketItem(string productId)
+        //public async Task<IActionResult> AddBasketItem(string productId, int quantity = 1)
+        //{
+        //    var product = await _catalogService.GetProductById(productId);
+        //    var basketItem = new BasketItemViewModel { ProductId = product.Id, ProductName = product.Name, PictureUrl = product.Picture, Price = product.Price, Quantity = quantity };
+        //    await _basketService.AddBasketItem(basketItem);
+        //    return RedirectToAction(nameof(Index));
+        //}
+        public async Task<IActionResult> AddBasketItem(AddBasketModel addBasketModel)
         {
-            var product = await _catalogService.GetProductById(productId);
-            var basketItem = new BasketItemViewModel { ProductId = product.Id, ProductName = product.Name, PictureUrl = product.Picture, Price = product.Price, Quantity = 1 };
+            var product = await _catalogService.GetProductById(addBasketModel.ProductId);
+            var basketItem = new BasketItemViewModel { ProductId = product.Id, ProductName = product.Name, PictureUrl = product.Picture, Price = product.Price, Quantity = addBasketModel.Quantity };
             await _basketService.AddBasketItem(basketItem);
             return RedirectToAction(nameof(Index));
         }

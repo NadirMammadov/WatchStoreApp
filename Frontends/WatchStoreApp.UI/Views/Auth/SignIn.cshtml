@@ -3,22 +3,25 @@
 
 <div class="sign-container">
     <div>
-        <h1>SignIn</h1>
+        <h1>Hesaba giriş</h1>
         <form asp-controller="Auth" asp-action="SignIn" method="post">
-            <div asp-validation-summary="All" class="alert mb-2 alert-danger small" style="background-color:#f44a40"></div>
+            <div asp-validation-summary="All" class="mb-2 p-3" style="background-color: #f44a40" ></div>
             <div class="mb-3">
-                <label asp-for="Email" class="form-label">Email address</label>
+                <label asp-for="Email" class="form-label">Elektron poçt</label>
                 <input type="email" asp-for="Email" class="form-control" >
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Password" class="form-label">Password</label>
+                <label asp-for="Password" class="form-label">Şifrəniz</label>
                 <input type="password" asp-for="Password" class="form-control" >
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" asp-for="IsRemember" >
-                <label asp-for="IsRemember" class="form-check-label" >Check me out</labeL>
+            <div class="mb-3 form-check" style="display:flex; flex-direction:row;">
+                <div>
+                     <input type="checkbox" class="form-check-input" asp-for="IsRemember" >
+                      <label asp-for="IsRemember" class="form-check-label" >Məni xatırla</labeL>
+                </div>
+               <a asp-action="SignUp" asp-controller="Auth" style="color:red">Qeydiyyat</a>
             </div>
             <button type="submit" class="genric-btn danger circle arrow">Submit</button>
         </form>

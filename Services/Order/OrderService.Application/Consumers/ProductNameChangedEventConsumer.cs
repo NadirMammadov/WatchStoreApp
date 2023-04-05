@@ -19,7 +19,7 @@ namespace OrderService.Application.Consumers
             var orderItems = await _orderDbContext.OrderItems.Where(x => x.ProductId == context.Message.ProductId).ToListAsync();
             orderItems.ForEach(x =>
             {
-                x.UpdateOrderItem(context.Message.UpdatedName, x.PictureUrl, x.Price);
+                x.UpdateOrderItem(context.Message.UpdatedName, x.PictureUrl, x.Price, x.Quantity);
             });
             await _orderDbContext.SaveChangesAsync();
         }

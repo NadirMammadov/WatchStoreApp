@@ -11,7 +11,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var orders = await _orderService.GetOrders();
+            var orders = await _orderService.GetOrdersByUserId();
             return View(orders);
         }
 

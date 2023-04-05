@@ -16,15 +16,21 @@ namespace OrderService.API.Controllers
         {
             _sharedIdentityService = sharedIdentityService;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetOrders()
+        {
+            var response = await Mediator.Send(new GetOrdersQuery());
+            return CreateActionResultInstance(response);
+        }
+        [HttpGet]
+        [Route("/api/[controller]/[action]")]
+        public async Task<IActionResult> GetOrdersByUserId()
         {
             var response = await Mediator.Send(new GetOrdersByUserIdQuery { UserId = _sharedIdentityService.GetUserId });
             return CreateActionResultInstance(response);
         }
         [HttpGet("{orderId}")]
-        public async Task<IActionResult> GetOrders(int orderId)
+        public async Task<IActionResult> GetOrdersById(int orderId)
         {
             var response = await Mediator.Send(new GetOrderByIdQuery(orderId));
             return CreateActionResultInstance(response);

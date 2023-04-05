@@ -47,10 +47,23 @@ namespace WacthStore.IdentityServer
                     var applicationDbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
                     applicationDbContext.Database.Migrate();
                     var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                     if (!userManager.Users.Any())
                     {
-                        userManager.CreateAsync(new ApplicationUser { UserName = "Admin", Email = "admin@admin.com" }, "Password12*").Wait();
+                        var user = new ApplicationUser { UserName = "Admin", Email = "admin@admin.com" };
+                        var role = new IdentityRole { Name = "admin" };
+                        userManager.CreateAsync(user, "Password12*").Wait();
+                        if (!roleManager.Roles.Any())
+                        {
+                            roleManager.CreateAsync(role).Wait();
+                            roleManager.CreateAsync(new IdentityRole { Name = "customer" }).Wait();
+                            userManager.AddToRoleAsync(user, "admin").Wait();
+
+                        }
+
                     }
+
+
                 }
                 Log.Information("Starting host...");
                 host.Run();

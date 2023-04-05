@@ -35,12 +35,15 @@
                 </ul>
             </div>
             <div class="purchase-info">
-                <span>Sifariş sayı: <input type="number" min="0" value="1"></span>
-                
-                <button type="button" class="btn">
-                    <a asp-action="AddBasketItem" asp-controller="Basket" asp-route-productId="@Model.Id" style="color:white">Add to Cart <i class="fas fa-shopping-cart"></i> </a>
-                    
-                </button>
+                <form asp-action="AddBasketItem" asp-controller="Basket" method="get">
+                    <span>Sifariş sayı: <input type="number" min="0" name="Quantity" value="1"></span>
+                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                    <button type="submit" class="btn">
+                        <span style="color:white">Səbətə əlavə et <i class="fas fa-shopping-cart"></i> </span>
+
+                    </button>
+                </form>
+               
             </div>
         </div>
     </div>

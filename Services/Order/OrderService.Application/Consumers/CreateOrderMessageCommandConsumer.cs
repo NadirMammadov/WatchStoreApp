@@ -19,7 +19,7 @@ namespace OrderService.Application.Consumers
             Domain.OrderAggregate.Order order = new Domain.OrderAggregate.Order(context.Message.BuyerId, newAddress);
             context.Message.OrderItems.ForEach(x =>
             {
-                order.AddOrderItem(x.ProductId, x.ProductName, x.Price, x.PictureUrl);
+                order.AddOrderItem(x.ProductId, x.ProductName, x.Price, x.PictureUrl, x.Quantity);
             });
             var response = await _orderDbContext.Orders.AddAsync(order);
             var response1 = await _orderDbContext.SaveChangesAsync();

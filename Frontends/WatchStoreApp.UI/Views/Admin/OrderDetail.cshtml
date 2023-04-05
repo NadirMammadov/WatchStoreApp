@@ -1,5 +1,5 @@
 ﻿@model OrderViewModel
-<h4>Sifariş məlumatları</h4>
+<h2 class="my-2" style="text-align:center">Sifariş məlumatları</h2>
 <div class="row">
     <div class="col-md-9">
         <table class="table table-striped">
@@ -12,15 +12,15 @@
             </tr>
             @foreach (var order in Model.OrderItems)
             {
-                 <tr>
+                <tr>
                     <td><img style="width:70px" src="@order.PictureUrl" /></td>
                     <td>@order.ProductName</td>
                     <td>@order.Price</td>
                     <td>@order.Quantity</td>
                     <td>@order.TotalPrice()</td>
-                 </tr>
+                </tr>
             }
-           
+
         </table>
     </div>
 

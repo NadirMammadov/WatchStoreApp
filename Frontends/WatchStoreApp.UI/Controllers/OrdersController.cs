@@ -46,7 +46,7 @@ namespace WatchStoreApp.UI.Controllers
 
         public async Task<IActionResult> CheckoutHistory()
         {
-            return View(await _orderService.GetOrders());
+            return View(await _orderService.GetOrdersByUserId());
         }
     }
 }

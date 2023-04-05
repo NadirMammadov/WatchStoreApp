@@ -35,7 +35,8 @@ namespace PaymentService.API.Controllers
                     PictureUrl = x.PictureUrl,
                     Price = x.Price,
                     ProductId = x.ProductId,
-                    ProductName = x.ProductName
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity
                 });
             });
             await sendEnpoint.Send<CreateOrderMessageCommand>(createorderMessageCommand);
