@@ -1,7 +1,9 @@
-﻿using WatchStoreApp.UI.Models.Orders;
+﻿using Microsoft.AspNetCore.Authorization;
+using WatchStoreApp.UI.Models.Orders;
 
 namespace WatchStoreApp.UI.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IBasketService _basketService;

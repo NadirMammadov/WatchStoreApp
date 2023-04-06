@@ -23,5 +23,8 @@ public class UserService : IUserService
     {
         return await _client.GetFromJsonAsync<UserViewModel>("/api/user/getuser");
     }
-
+    public async Task<List<UserViewModel>> GetUsers()
+    {
+        return await _client.GetFromJsonAsync<List<UserViewModel>>("/api/user/getusers");
+    }
 }

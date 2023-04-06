@@ -178,5 +178,11 @@ namespace WatchStoreApp.UI.Controllers
             var order = await _orderService.GetOrder(orderId);
             return View(order);
         }
+
+        public async Task<IActionResult> Customers()
+        {
+            var users = await _userService.GetUsers();
+            return View(users);
+        }
     }
 }

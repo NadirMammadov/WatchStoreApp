@@ -74,7 +74,8 @@ namespace WatchStoreApp.UI.Services
             var response = await _httpClient.GetFromJsonAsync<TResponse<List<AdminOrderViewModel>>>("orders");
             response.Data.ForEach(x =>
             {
-                x.UserName = _userService.GetUserName(x.BuyerId).Result.UserName.ToString();
+                var username = _userService.GetUserName(x.BuyerId).Result;
+                x.UserName = username.UserName;
             });
             return response.Data;
         }

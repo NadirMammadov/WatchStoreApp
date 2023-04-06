@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,6 +51,14 @@ namespace WacthStore.IdentityServer.Controllers
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
             if (user == null) return BadRequest();
             return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, PhoneNumber = user.PhoneNumber, FirstName = user.FirstName, LastName = user.LastName });
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userManager.Users.Where(x => x.UserName != "Admin").ToListAsync();
+            if (users == null) return BadRequest();
+            return Ok(users);
 
         }
         [HttpGet("{userId}")]
